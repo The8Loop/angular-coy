@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ListComponent } from './pages/list/list.component';
 import { CreateComponent } from './pages/create/create.component';
+import { DropdownComponent } from './shared/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
-    CreateComponent
+    CreateComponent,
+    DropdownComponent
   ],
   imports: [
     BrowserModule,
