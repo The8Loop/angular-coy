@@ -1,5 +1,11 @@
 <div class="input-int">
-  <input type="number" step="1" placeholder="0">
+  <label>Contribution: </label>
+  <input id="input" type="number" [formControl]="input">
 
-  <button class="savebtn">Save</button>
+  <button class="savebtn" [disabled]="!input.valid">Save</button>
+</div>
+
+<span>Number: {{input.value}}</span>
+<div *ngIf="input.errors?.['invalidInt']">
+  Must be a valid int
 </div>

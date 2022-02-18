@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { intValidator } from '../intValidator.directive';
 
 @Component({
   selector: 'coy-input-int',
@@ -6,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./input-int.component.scss']
 })
 export class InputIntComponent implements OnInit {
+
+  input = new FormControl('', intValidator());
 
   constructor() { }
 
