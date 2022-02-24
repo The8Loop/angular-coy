@@ -7,5 +7,9 @@
 
 <span>Number: {{input.value}}</span>
 <div *ngIf="input.errors?.['invalidInt']">
-  Must be a valid int
+  Please input a whole number without letters. {{input.errors|json}}
+</div>
+
+<div *ngIf="input.errors?.['decimalDetected']">
+  Please do not enter decimals.
 </div>

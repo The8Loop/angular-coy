@@ -10,7 +10,7 @@ import { intValidator } from '../intValidator.directive';
 })
 export class InputIntComponent implements OnInit {
 
-  input = new FormControl('', intValidator());
+  input = new FormControl(0, intValidator());
 
   constructor() { }
 
