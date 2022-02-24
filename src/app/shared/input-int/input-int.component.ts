@@ -10,11 +10,10 @@ import { intValidator } from '../intValidator.directive';
 })
 export class InputIntComponent implements OnInit {
 
-  input = new FormControl(0, intValidator());
+  contribution = new FormControl(0, intValidator());
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

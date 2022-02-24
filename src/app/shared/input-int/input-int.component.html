@@ -1,15 +1,15 @@
 <div class="input-int">
   <label>Contribution: </label>
-  <input id="input" type="number" [formControl]="input">
+  <input id="contribution" type="number" [formControl]="contribution">
 
-  <button class="savebtn" [disabled]="!input.valid">Save</button>
+  <button class="savebtn" [disabled]="!contribution.valid">Save</button>
 </div>
 
-<span>Number: {{input.value}}</span>
-<div *ngIf="input.errors?.['invalidInt']">
-  Please input a whole number without letters. {{input.errors|json}}
+<span>Number: {{contribution.value}}</span>
+<div *ngIf="contribution.errors?.['invalidInt']">
+  Please input a whole number without letters.
 </div>
 
-<div *ngIf="input.errors?.['decimalDetected']">
+<div *ngIf="contribution.errors?.['decimalDetected']">
   Please do not enter decimals.
 </div>
