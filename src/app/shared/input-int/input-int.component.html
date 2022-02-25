@@ -2,7 +2,7 @@
   <label>Contribution: </label>
   <input id="contribution" type="number" [formControl]="contribution">
 
-  <button class="savebtn" [disabled]="!contribution.valid">Save</button>
+  <button class="savebtn" [disabled]="!contribution.valid" (click)="clickEvent()">Save</button>
 </div>
 
 <span>Number: {{contribution.value}}</span>

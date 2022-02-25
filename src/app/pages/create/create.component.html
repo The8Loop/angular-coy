@@ -1,2 +1,4 @@
-<coy-dropdown></coy-dropdown>
+<coy-dropdown [userList]="users" (userSelected)="onSelected($event)"></coy-dropdown>
 <coy-input-int></coy-input-int>
+
+<div>{{user.userName}} </div>
