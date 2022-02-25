@@ -13,6 +13,7 @@ export class CreateComponent implements OnInit {
 
   users: User[] = [];
   user: User = { userName: 'Choose Guild Member', id: 0 };
+  contribution!: Number;
 
   constructor() { }
 
@@ -26,5 +27,9 @@ export class CreateComponent implements OnInit {
    */
   onSelected(user: User): void {
     this.user = user;
+  }
+
+  onSave(contribution: Number): void {
+    this.contribution = contribution;
   }
 }

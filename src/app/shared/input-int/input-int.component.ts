@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { intValidator } from '../intValidator.directive';
 
@@ -9,17 +9,16 @@ import { intValidator } from '../intValidator.directive';
 })
 export class InputIntComponent implements OnInit {
 
-  contribution = new FormControl(0, intValidator());
+  @Output() userContribution = new EventEmitter<Number>();
 
-  userContribution?: number;
+  contribution = new FormControl(0, intValidator());
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  clickEvent() {
-
-    this.userContribution = this.contribution.value;
+  clickEvent(contribution: Number): void {
+    this.userContribution.emit(contribution);
   }
 }

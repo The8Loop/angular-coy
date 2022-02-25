@@ -2,14 +2,16 @@
   <label>Contribution: </label>
   <input id="contribution" type="number" [formControl]="contribution">
 
-  <button class="savebtn" [disabled]="!contribution.valid" (click)="clickEvent()">Save</button>
+  <button class="savebtn" [disabled]="!contribution.valid || contribution.value === 0"
+    (click)="clickEvent(contribution.value)">Save</button>
 </div>
 
-<span>Number: {{contribution.value}}</span>
-<div *ngIf="contribution.errors?.['invalidInt']">
-  Please input a whole number without letters.
-</div>
+<div class="error">
+  <div *ngIf="contribution.errors?.['invalidInt']">
+    Please input a whole number without letters.
+  </div>
 
-<div *ngIf="contribution.errors?.['decimalDetected']">
-  Please do not enter decimals.
+  <div *ngIf="contribution.errors?.['decimalDetected']">
+    Please do not enter decimals.
+  </div>
 </div>
