@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { User } from 'src/app/model/user.interface';
 import { intValidator } from '../intValidator.directive';
 
 @Component({
@@ -9,6 +10,7 @@ import { intValidator } from '../intValidator.directive';
 })
 export class InputIntComponent implements OnInit {
 
+  @Input() selectedUser!: User;
   @Output() userContribution = new EventEmitter<Number>();
 
   contribution = new FormControl(0, intValidator());
@@ -18,6 +20,10 @@ export class InputIntComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Event triggers when save button is clicked. User Contribution is outputed.
+   * @param contribution User contribution
+   */
   clickEvent(contribution: Number): void {
     this.userContribution.emit(contribution);
   }

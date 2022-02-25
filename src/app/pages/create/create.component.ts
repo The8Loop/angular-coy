@@ -23,13 +23,17 @@ export class CreateComponent implements OnInit {
 
   /**
    * Sets property user to input from dropdown component
-   * @param user Selected user from dropdown menu
+   * @param user - Selected user from dropdown menu
    */
   onSelected(user: User): void {
     this.user = user;
   }
 
-  onSave(contribution: Number): void {
-    this.contribution = contribution;
+  /**
+   * Set property contribution to input from input field component
+   * @param userContribution - Contribution of Guild Member from input field component
+   */
+  onSave(userContribution: Number): void {
+    this.contribution = userContribution;
   }
 }

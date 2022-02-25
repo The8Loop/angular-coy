@@ -2,7 +2,7 @@
   <label>Contribution: </label>
   <input id="contribution" type="number" [formControl]="contribution">
 
-  <button class="savebtn" [disabled]="!contribution.valid || contribution.value === 0"
+  <button class="savebtn" [disabled]="!contribution.valid || contribution.value === 0 || selectedUser.id === 0"
     (click)="clickEvent(contribution.value)">Save</button>
 </div>
 
