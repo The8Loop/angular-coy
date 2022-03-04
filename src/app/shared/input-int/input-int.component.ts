@@ -10,8 +10,12 @@ import { intValidator } from '../intValidator.directive';
 })
 export class InputIntComponent implements OnInit {
 
-  @Input() selectedUser!: User; //Inputs the selected user from the create page to check if ID isn't zero.
-  @Output() userContribution = new EventEmitter<Number>(); //Outputs the user contribution to create page.
+  /**
+   * Inputs the selected user from the create page to check if ID isn't zero.
+   * Outputs the user contribution to create page.
+   */
+  @Input() selectedUser!: User;
+  @Output() userContribution = new EventEmitter<Number>();
 
   contribution = new FormControl(0, intValidator());
 
