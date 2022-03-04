@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from 'src/app/model/user.interface';
 
 @Component({
@@ -6,13 +6,16 @@ import { User } from 'src/app/model/user.interface';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss']
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent {
 
   /**
    * Input list of users from create page to create a dropdown menu of names.
-   * Outputs the user clicked on to the create page.
    */
   @Input() userList!: User[];
+
+  /**
+   * Outputs the user clicked on to the create page.
+   */
   @Output() userSelected = new EventEmitter<User>();
 
   userName = 'Choose Guild Member';
@@ -25,8 +28,4 @@ export class DropdownComponent implements OnInit {
     this.userName = user.userName;
     this.userSelected.emit(user);
   }
-
-  ngOnInit(): void {
-  }
-
 }

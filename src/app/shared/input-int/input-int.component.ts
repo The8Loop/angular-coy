@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { User } from 'src/app/model/user.interface';
 import { intValidator } from '../intValidator.directive';
@@ -8,19 +8,19 @@ import { intValidator } from '../intValidator.directive';
   templateUrl: './input-int.component.html',
   styleUrls: ['./input-int.component.scss']
 })
-export class InputIntComponent implements OnInit {
+export class InputIntComponent {
 
   /**
    * Inputs the selected user from the create page to check if ID isn't zero.
-   * Outputs the user contribution to create page.
    */
   @Input() selectedUser!: User;
+
+  /**
+   * Outputs the user contribution to create page.
+   */
   @Output() userContribution = new EventEmitter<Number>();
 
   contribution = new FormControl(0, intValidator());
-
-  ngOnInit(): void {
-  }
 
   /**
    * Event triggers when save button is clicked. User Contribution is outputed.
