@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/model/user.interface';
+import { HttpClient } from '@angular/common/http';
 
 const userList: User[] = [{ userName: 'Thorak Icestorm', id: 1 },
 { userName: 'Zia Mordrem', id: 2 }];
@@ -15,10 +16,11 @@ export class CreateComponent implements OnInit {
   user: User = { userName: 'Choose Guild Member', id: 0 };
   contribution!: Number;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.users = userList;
+    this.http.get('http://localhost:5041/WeatherForecast').subscribe(response => console.log(response));
   }
 
   /**

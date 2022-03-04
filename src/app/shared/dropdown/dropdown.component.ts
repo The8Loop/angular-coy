@@ -8,10 +8,14 @@ import { User } from 'src/app/model/user.interface';
 })
 export class DropdownComponent implements OnInit {
 
+  /**
+   * Input list of users from create page to create a dropdown menu of names.
+   * Outputs the user clicked on to the create page.
+   */
   @Input() userList!: User[];
   @Output() userSelected = new EventEmitter<User>();
 
-  userName: string = 'Choose Guild Member';
+  userName = 'Choose Guild Member';
 
   /**
    * Event ran when clicking dropdown element.
@@ -22,10 +26,7 @@ export class DropdownComponent implements OnInit {
     this.userSelected.emit(user);
   }
 
-  constructor() { }
-
   ngOnInit(): void {
-
   }
 
 }
