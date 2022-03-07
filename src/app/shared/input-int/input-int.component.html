@@ -1,5 +1,17 @@
 <div class="input-int">
-  <input type="number" step="1" placeholder="0">
+  <label>Contribution: </label>
+  <input id="contribution" type="number" [formControl]="contribution">
 
-  <button class="savebtn">Save</button>
+  <button class="savebtn" [disabled]="!contribution.valid || contribution.value === 0 || selectedUser.id === 0"
+    (click)="clickEvent(contribution.value)">Save</button>
+</div>
+
+<div class="error">
+  <div *ngIf="contribution.errors?.['invalidInt']">
+    Please input a whole number without letters.
+  </div>
+
+  <div *ngIf="contribution.errors?.['decimalDetected']">
+    Please do not enter decimals.
+  </div>
 </div>
