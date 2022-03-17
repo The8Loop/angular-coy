@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\erics\\Desktop\\CoYBackend\\CoYBackend.csproj": {}
+    "C:\\Users\\erics\\Desktop\\Angular Projects\\angular-coy\\CoYBackend\\CoYBackend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\erics\\Desktop\\CoYBackend\\CoYBackend.csproj": {
+    "C:\\Users\\erics\\Desktop\\Angular Projects\\angular-coy\\CoYBackend\\CoYBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\erics\\Desktop\\CoYBackend\\CoYBackend.csproj",
+        "projectUniqueName": "C:\\Users\\erics\\Desktop\\Angular Projects\\angular-coy\\CoYBackend\\CoYBackend.csproj",
         "projectName": "CoYBackend",
-        "projectPath": "C:\\Users\\erics\\Desktop\\CoYBackend\\CoYBackend.csproj",
+        "projectPath": "C:\\Users\\erics\\Desktop\\Angular Projects\\angular-coy\\CoYBackend\\CoYBackend.csproj",
         "packagesPath": "C:\\Users\\erics\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\erics\\Desktop\\CoYBackend\\obj\\",
+        "outputPath": "C:\\Users\\erics\\Desktop\\Angular Projects\\angular-coy\\CoYBackend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\erics\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -38,6 +38,20 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
