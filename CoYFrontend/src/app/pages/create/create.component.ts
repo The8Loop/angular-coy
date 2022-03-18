@@ -20,9 +20,6 @@ export class CreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.users = userList;
-    this.http.get('http://localhost:5041/WeatherForecast').subscribe(response => console.log(response));
-    this.http.get('http://localhost:5041/User/1').subscribe(response => console.log(response));
-    this.http.get('http://localhost:5041/User').subscribe(response => console.log(response));
   }
 
   /**
