@@ -65,11 +65,6 @@ namespace CoYBackend.Controllers
         return NotFound();
       }
 
-      if (user.Contributions == null)
-      {
-        throw new Exception("User contribution is null");
-      }
-
       var userContributions = user.Contributions.Select(m =>
       {
         var money = new long();
@@ -79,6 +74,7 @@ namespace CoYBackend.Controllers
 
       var userDTO = new UserContDTO
       {
+        Name = user.Name,
         Contributions = userContributions
       };
 
