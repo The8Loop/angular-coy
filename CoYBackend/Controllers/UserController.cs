@@ -18,32 +18,98 @@ namespace CoYBackend.Controllers
 
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> Get()
+    public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
     {
-      return await _context.users.ToListAsync();
+      var userList = await _context.users.ToListAsync();
+      var userDTOList = userList.Select(u =>
+      {
+        var userDTO = new UserDTO()
+        {
+          Name = u.Name
+        };
+        return userDTO;
+      }).ToList();
+      return userDTOList;
+    }
+
+    [HttpGet("Money")]
+    public async Task<ActionResult<IEnumerable<UserContDTO>>> Get()
+    {
+      var userList = await _context.users.Include(u => u.Contributions).ToListAsync();
+      var userDTOList = userList.Select(u =>
+      {
+        var userContributions = u.Contributions.Select(m =>
+        {
+          var money = new long();
+          money = m.Contribution;
+          return money;
+        }).ToList();
+
+        var userDTO = new UserContDTO()
+        {
+          Name = u.Name,
+          Contributions = userContributions
+        };
+        return userDTO;
+      }).ToList();
+      return userDTOList;
     }
 
     [HttpGet("{Id}")]
-    public async Task<ActionResult<User>> Get(int Id)
+    public async Task<ActionResult<UserContDTO>> Get(int Id)
     {
-      var user = await _context.users.FindAsync(Id);
+      var user = await _context.users.Include(i => i.Contributions).FirstAsync(i => i.Id == Id);
 
       if (user == null)
       {
         return NotFound();
       }
 
-      return user;
+      var userContributions = user.Contributions.Select(m =>
+      {
+        var money = new long();
+        money = m.Contribution;
+        return money;
+      }).ToList();
+
+      var userDTO = new UserContDTO
+      {
+        Name = user.Name,
+        Contributions = userContributions
+      };
+
+      return userDTO;
     }
 
     [HttpPost]
-    public async Task<ActionResult<User>> Post(User user)
+    public async Task<ActionResult<User>> Post(UserDTO userDTO)
     {
+      var user = new User
+      {
+        Name = userDTO.Name
+      };
+
       _context.users.Add(user);
-
       await _context.SaveChangesAsync();
-
       return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
+    }
+
+    [HttpPost("Money")]
+    public async Task<ActionResult<Money>> Post(MoneyDTO moneyDTO)
+    {
+      if (moneyDTO.Contribution == 0)
+      {
+        return BadRequest();
+      }
+
+      var money = new Money
+      {
+        Contribution = moneyDTO.Contribution,
+        UserId = moneyDTO.UserId
+      };
+      _context.money.Add(money);
+      await _context.SaveChangesAsync();
+      return CreatedAtAction(nameof(MoneyController.GetMoney), "Money", new { id = money.Id }, money);
     }
 
     [HttpPut("{Id}")]

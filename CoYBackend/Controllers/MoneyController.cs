@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
 
+
 namespace CoYBackend.Controllers
 {
   [Route("api/[controller]")]
@@ -18,14 +19,26 @@ namespace CoYBackend.Controllers
 
     // GET: api/Money
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Money>>> Getmoney()
+    public async Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney()
     {
-      return await _context.money.ToListAsync();
+      //return await _context.money.ToListAsync();
+      var moneyList = await _context.money.ToListAsync();
+      var moneyDTOList = moneyList.Select(m =>
+      {
+        var moneyDTO = new MoneyDTO()
+        {
+          Contribution = m.Contribution,
+          UserId = m.UserId
+        };
+        return moneyDTO;
+      }).ToList();
+
+      return moneyDTOList;
     }
 
     // GET: api/Money/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Money>> GetMoney(int id)
+    public async Task<ActionResult<MoneyDTO>> GetMoney(int id)
     {
       var money = await _context.money.FindAsync(id);
 
@@ -34,7 +47,13 @@ namespace CoYBackend.Controllers
         return NotFound();
       }
 
-      return money;
+      var moneyDTO = new MoneyDTO
+      {
+        Contribution = money.Contribution,
+        UserId = money.UserId
+      };
+
+      return moneyDTO;
     }
 
     // PUT: api/Money/5
@@ -66,21 +85,6 @@ namespace CoYBackend.Controllers
       }
 
       return NoContent();
-    }
-
-    // POST: api/Money
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPost]
-    public async Task<ActionResult<Money>> PostMoney(Money money)
-    {
-      if (money.Contribution == 0)
-      {
-        return BadRequest();
-      }
-      _context.money.Add(money);
-      await _context.SaveChangesAsync();
-
-      return CreatedAtAction("GetMoney", new { id = money.Id }, money);
     }
 
     // DELETE: api/Money/5
