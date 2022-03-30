@@ -25,7 +25,7 @@ export class DropdownComponent {
    * @param user - Clicked user assigned to dropdown element.
    */
   clickEvent(user: User): void {
-    this.userName = user.userName;
+    this.userName = user.name;
     this.userSelected.emit(user);
   }
 }

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/model/user.interface';
 import { HttpClient } from '@angular/common/http';
-
-const userList: User[] = [{ userName: 'Thorak Icestorm', id: 1 },
-{ userName: 'Zia Mordrem', id: 2 }];
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'coy-create',
@@ -13,13 +11,15 @@ const userList: User[] = [{ userName: 'Thorak Icestorm', id: 1 },
 export class CreateComponent implements OnInit {
 
   users: User[] = [];
-  user: User = { userName: 'Choose Guild Member', id: 0 };
+  user: User = { name: 'Choose Guild Member', id: 0 };
   contribution!: Number;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.users = userList;
+    //Request list of users from server
+    this.usersService.getAll().subscribe(users => this.users = users);
   }
 
   /**

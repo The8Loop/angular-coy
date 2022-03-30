@@ -25,6 +25,7 @@ namespace CoYBackend.Controllers
       {
         var userDTO = new UserDTO()
         {
+          Id = u.Id,
           Name = u.Name
         };
         return userDTO;
@@ -86,6 +87,7 @@ namespace CoYBackend.Controllers
     {
       var user = new User
       {
+        Id = userDTO.Id,
         Name = userDTO.Name
       };
 

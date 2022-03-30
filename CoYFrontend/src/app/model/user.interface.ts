@@ -1,4 +1,5 @@
+//Backend: UserDTO
 export interface User {
-    userName: string;
     id: number;
+    name: string;
 }
