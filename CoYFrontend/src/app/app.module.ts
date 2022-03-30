@@ -7,7 +7,7 @@ import { CreateComponent } from './pages/create/create.component';
 import { ListComponent } from './pages/list/list.component';
 import { InputIntComponent } from './shared/input-int/input-int.component';
 import { DropdownComponent } from './shared/dropdown/dropdown.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
