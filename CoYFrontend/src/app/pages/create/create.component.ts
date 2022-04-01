@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/model/user.interface';
-import { HttpClient } from '@angular/common/http';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -14,8 +13,7 @@ export class CreateComponent implements OnInit {
   user: User = { name: 'Choose Guild Member', id: 0 };
   contribution!: Number;
 
-  constructor(private http: HttpClient,
-    private usersService: UsersService) { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
     //Request list of users from server

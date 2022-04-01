@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { UsersService } from 'src/app/services/users.service';
+import { UserCont } from 'src/app/model/user.interface';
 
 @Component({
   selector: 'coy-list',
@@ -8,11 +8,13 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+  usersCont: UserCont[] = [];
 
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersService.getMoney().subscribe()
+    this.usersService.getMoney().subscribe(usersCont => console.log(usersCont));
+    this.usersService.getMoney().subscribe(usersCont => this.usersCont = usersCont);
   }
 
 }
