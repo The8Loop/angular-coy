@@ -8,6 +8,7 @@ import { ListComponent } from './pages/list/list.component';
 import { InputIntComponent } from './shared/input-int/input-int.component';
 import { DropdownComponent } from './shared/dropdown/dropdown.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FinancialListComponent } from './shared/financial-list/financial-list.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     ListComponent,
     CreateComponent,
     InputIntComponent,
-    DropdownComponent
+    DropdownComponent,
+    FinancialListComponent
   ],
   imports: [
     BrowserModule,
