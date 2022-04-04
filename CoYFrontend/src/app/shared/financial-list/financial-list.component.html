@@ -1,7 +1,8 @@
 <div class="flex-container">
   <div class="flex-column" *ngFor="let user of usersList">
     <div class="flex-row-header">{{user.name}}</div>
-    <div class="flex-row" *ngFor="let cont of user.contributions">
+    <div class="flex-row" *ngFor="let cont of user.contributions"
+      [ngStyle]="{'background-color':cont == 1 ? '#cd3939' : ''}">
       {{cont}}
     </div>
   </div>

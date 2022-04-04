@@ -5,8 +5,9 @@
 
 .flex-column{
     //padding: 5px;
-    border: solid 1px;
+    //border: solid 1px;
     //border-bottom: none;
+    margin: 1px;
     height: min-content;
     
 }
@@ -17,7 +18,16 @@
 
 .flex-row{
     padding: 0px 5px;
-    border-bottom: solid 1px;
+    background-color: #4CAF50;
+    margin-bottom: 2px;
+    //border-bottom: solid 1px;
+}
+
+.flex-row-negative{
+    padding: 0px 5px;
+    background-color: #cd3939;
+    margin-bottom: 2px;
+    //border-bottom: solid 1px;
 }
 
 // .flex-row:last-of-type{
@@ -26,5 +36,8 @@
 
 .flex-row-header{
     padding: 0px 5px;
-    border-bottom: solid 1px;
+    margin-bottom: 2px;
+    //border-bottom: solid 1px;
+    background-color: #3e8e41;
+    font-size: 14pt;
 }
