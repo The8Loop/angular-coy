@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User, UserCont } from '../model/user.interface';
+import { MoneyDTO } from '../model/money.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -19,7 +20,20 @@ export class UsersService {
     return this.http.get<User[]>(environment.apiUrl + '/User');
   }
 
+  /**
+   * api/User/Money Get request that retrieves a list of all users and their contributions.
+   * @returns An observable of UserCont[]
+   */
   getMoney(): Observable<UserCont[]> {
     return this.http.get<UserCont[]>(environment.apiUrl + '/User/Money');
+  }
+
+  /**
+   * api/User/Money Post request of a user contribution
+   * @param moneyDTO 
+   * @returns An observable of MoneyDTO
+   */
+  addMoneyForUser(moneyDTO: MoneyDTO): Observable<MoneyDTO> {
+    return this.http.post<MoneyDTO>(environment.apiUrl + '/User/Money', moneyDTO);
   }
 }

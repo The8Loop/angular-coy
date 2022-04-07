@@ -99,7 +99,7 @@ namespace CoYBackend.Controllers
     [HttpPost("Money")]
     public async Task<ActionResult<Money>> Post(MoneyDTO moneyDTO)
     {
-      if (moneyDTO.Contribution == 0)
+      if (moneyDTO.Contribution == 0 || moneyDTO.UserId == 0)
       {
         return BadRequest();
       }
