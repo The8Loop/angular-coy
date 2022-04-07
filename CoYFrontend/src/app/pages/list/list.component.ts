@@ -13,7 +13,6 @@ export class ListComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersService.getMoney().subscribe(usersCont => console.log(usersCont));
     this.usersService.getMoney().subscribe(usersCont => this.usersCont = usersCont);
   }
 

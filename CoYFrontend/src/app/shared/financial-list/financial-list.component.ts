@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserCont } from 'src/app/model/user.interface';
 
 @Component({
@@ -6,25 +6,21 @@ import { UserCont } from 'src/app/model/user.interface';
   templateUrl: './financial-list.component.html',
   styleUrls: ['./financial-list.component.scss']
 })
-export class FinancialListComponent implements OnInit {
+export class FinancialListComponent {
 
   // usersList: UserCont[] = [{ name: 'Thorak Icestorm', contributions: [100, 500, 700] },
   // { name: 'Zia Mordrem', contributions: [100] }, { name: 'Zia Mordrem', contributions: [100] },
   // { name: 'Zia Mordrem', contributions: [100] }];
 
-  @Input() usersList!: UserCont[];
-
-  contList: number[][] = [];
+  @Input() usersList: UserCont[] = [];
 
   constructor() { }
 
-  ngOnInit(): void {
-
-    // for (var index in this.usersList) {
-    //   this.contList[index] = this.usersList[index].contributions;
-    // }
-    // console.log(this.contList[1][1]);
-
-
+  userTotal(user: UserCont): number {
+    let total: number = 0;
+    if (user.contributions.length != 0) {
+      total = user.contributions.reduce(function (a, b) { return a + b; });
+    }
+    return total;
   }
 }
