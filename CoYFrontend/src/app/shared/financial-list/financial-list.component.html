@@ -1,18 +1,18 @@
-<div class="section1">Guild Contributions</div>
+<div class="section-header">Guild Contributions</div>
 
 <div class="scroll-box">
   <div class="flex-container">
     <div class="flex-column" *ngFor="let user of usersList">
       <div class="flex-row-header">{{user.name}}</div>
-      <div class="flex-row" *ngFor="let cont of user.contributions"
-        [ngStyle]="{'background-color':cont < 0 ? '#cd3939' : ''}">
-        {{cont}}
+      <div class="flex-row" *ngFor="let contribution of user.contributions"
+        [ngStyle]="{'background-color':contribution < 0 ? '#cd3939' : ''}">
+        {{contribution}}
       </div>
     </div>
   </div>
 </div>
 
-<div class="section2">Total Contributions</div>
+<div class="martop30">Total Contributions</div>
 <div class="flex-container">
   <div class="flex-column" *ngFor="let user of usersList">
     <div class="flex-row-header">{{user.name}}</div>

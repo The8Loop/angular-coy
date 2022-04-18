@@ -1,12 +1,11 @@
-.section1{
+.section-header{
     font-size: 16pt;
     margin: 5px;
 }
 
-.section2{
-    font-size: 16pt;
+.martop30{
+    @extend .section-header;
     margin-top: 30px;
-    margin-bottom: 5px;
 }
 
 .scroll-box{

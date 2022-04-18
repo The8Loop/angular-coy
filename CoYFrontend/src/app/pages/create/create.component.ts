@@ -12,7 +12,7 @@ export class CreateComponent implements OnInit {
 
   users: User[] = [];
   user: User = { name: 'Choose Guild Member', id: 0 };
-  contribution: number = 0;
+  contribution = 0;
   moneyDTO: MoneyDTO = { contribution: 0, userId: 0 };
 
   constructor(private usersService: UsersService) { }

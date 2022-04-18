@@ -4,7 +4,7 @@ export interface User {
     name: string;
 }
 
-export interface UserCont {
+export interface UserContribution {
     name: string;
     contributions: number[];
 }
