@@ -9,6 +9,7 @@ import { InputIntComponent } from './shared/input-int/input-int.component';
 import { DropdownComponent } from './shared/dropdown/dropdown.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FinancialListComponent } from './shared/financial-list/financial-list.component';
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { FinancialListComponent } from './shared/financial-list/financial-list.c
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
