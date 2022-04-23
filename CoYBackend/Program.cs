@@ -10,13 +10,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-if (!app.Environment.IsDevelopment())
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (!builder.Environment.IsDevelopment())
 {
-  app.Urls.Add("http://*:5000");
+  var serverVersion = new MySqlServerVersion(new Version(8, 0, 28));
+  builder.Services.AddDbContext<CoYBackendContext>(options => options.UseMySql(connectionString, serverVersion));
 }
 else
 {
-  var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
   builder.Services.AddDbContext<CoYBackendContext>(options => options.UseSqlServer(connectionString));
 }
 
