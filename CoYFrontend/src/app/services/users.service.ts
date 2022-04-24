@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../model/user.interface';
+import { User, UserContribution } from '../model/user.interface';
+import { MoneyDTO } from '../model/money.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -9,8 +10,6 @@ import { environment } from 'src/environments/environment';
 })
 export class UsersService {
 
-  //private userUrl = 'http://localhost:5041/api/User';
-  private userUrl = environment.apiUrl + '/User';
   constructor(private http: HttpClient) { }
 
   /**
@@ -18,6 +17,23 @@ export class UsersService {
    * @returns An observable of users.
    */
   getAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.userUrl);
+    return this.http.get<User[]>(`${environment.apiUrl}/User`);
+  }
+
+  /**
+   * api/User/Money Get request that retrieves a list of all users and their contributions.
+   * @returns An observable of UserCont[]
+   */
+  getMoney(): Observable<UserContribution[]> {
+    return this.http.get<UserContribution[]>(`${environment.apiUrl}/User/Money`);
+  }
+
+  /**
+   * api/User/Money Post request of a user contribution
+   * @param moneyDTO 
+   * @returns An observable of MoneyDTO
+   */
+  addMoneyForUser(moneyDTO: MoneyDTO): Observable<MoneyDTO> {
+    return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyDTO);
   }
 }

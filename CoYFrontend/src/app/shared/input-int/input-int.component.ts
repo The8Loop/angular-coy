@@ -18,15 +18,15 @@ export class InputIntComponent {
   /**
    * Outputs the user contribution to create page.
    */
-  @Output() userContribution = new EventEmitter<Number>();
+  @Output() userContribution = new EventEmitter<number>();
 
   contribution = new FormControl(0, intValidator());
 
   /**
    * Event triggers when save button is clicked. User Contribution is outputed.
-   * @param contribution User contribution
+   * @param contribution - User contribution
    */
-  clickEvent(contribution: Number): void {
+  clickEvent(contribution: number): void {
     this.userContribution.emit(contribution);
   }
 }

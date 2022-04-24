@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:5041/api'
+  apiUrl: 'http://council-of-yggdrasil.company:5000/api'
 };

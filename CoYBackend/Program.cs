@@ -9,10 +9,26 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<CoYBackendContext>(options => options.UseSqlServer(connectionString));
+
+if (!builder.Environment.IsDevelopment())
+{
+  var serverVersion = new MySqlServerVersion(new Version(8, 0, 28));
+  builder.Services.AddDbContext<CoYBackendContext>(options => options.UseMySql(connectionString, serverVersion));
+}
+else
+{
+  builder.Services.AddDbContext<CoYBackendContext>(options => options.UseSqlServer(connectionString));
+}
 
 var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+  app.Urls.Add("http://*:5000");
+}
+
 app.UseCors(x => x
             .AllowAnyMethod()
             .AllowAnyHeader()

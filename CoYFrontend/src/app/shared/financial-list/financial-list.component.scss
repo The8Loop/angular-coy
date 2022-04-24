@@ -1,0 +1,41 @@
+.section-header{
+    font-size: 16pt;
+    margin: 5px;
+}
+
+.martop30{
+    @extend .section-header;
+    margin-top: 30px;
+}
+
+.scroll-box{
+    overflow: scroll;
+    max-height: 500px;
+}
+
+.flex-container{
+    display: flex;
+}
+
+.flex-column{
+    margin: 1px;
+}
+
+.flex-row{
+    padding: 0px 5px;
+    background-color: #4CAF50;
+    margin-bottom: 2px;
+}
+
+.flex-row-negative{
+    padding: 0px 5px;
+    background-color: #cd3939;
+    margin-bottom: 2px;
+}
+
+.flex-row-header{
+    padding: 0px 5px;
+    margin-bottom: 2px;
+    background-color: #3e8e41;
+    font-size: 14pt;
+}

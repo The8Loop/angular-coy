@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MoneyDTO } from 'src/app/model/money.interface';
 import { User } from 'src/app/model/user.interface';
-import { HttpClient } from '@angular/common/http';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -12,10 +12,10 @@ export class CreateComponent implements OnInit {
 
   users: User[] = [];
   user: User = { name: 'Choose Guild Member', id: 0 };
-  contribution!: Number;
+  contribution = 0;
+  moneyDTO: MoneyDTO = { contribution: 0, userId: 0 };
 
-  constructor(private http: HttpClient,
-    private usersService: UsersService) { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
     //Request list of users from server
@@ -31,10 +31,13 @@ export class CreateComponent implements OnInit {
   }
 
   /**
-   * Set property contribution to input from input field component
+   * Sets property contribution to input from input field component
+   * Sets values of moneyDTO and posts to the server
    * @param userContribution - Contribution of Guild Member from input field component
    */
-  onSave(userContribution: Number): void {
+  onSave(userContribution: number): void {
     this.contribution = userContribution;
+    this.moneyDTO = { contribution: this.contribution, userId: this.user.id };
+    this.usersService.addMoneyForUser(this.moneyDTO).subscribe(moneyDTO => moneyDTO = this.moneyDTO);
   }
 }

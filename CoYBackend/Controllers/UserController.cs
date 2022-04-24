@@ -59,27 +59,36 @@ namespace CoYBackend.Controllers
     [HttpGet("{Id}")]
     public async Task<ActionResult<UserContDTO>> Get(int Id)
     {
-      var user = await _context.users.Include(i => i.Contributions).FirstAsync(i => i.Id == Id);
-
-      if (user == null)
+      try
       {
-        return NotFound();
+
+        var user = await _context.users.Include(i => i.Contributions).FirstAsync(i => i.Id == Id);
+
+        if (user == null)
+        {
+          return NotFound();
+        }
+
+        var userContributions = user.Contributions.Select(m =>
+        {
+          var money = new long();
+          money = m.Contribution;
+          return money;
+        }).ToList();
+
+        var userDTO = new UserContDTO
+        {
+          Name = user.Name,
+          Contributions = userContributions
+        };
+
+        return userDTO;
       }
-
-      var userContributions = user.Contributions.Select(m =>
+      catch (Exception e)
       {
-        var money = new long();
-        money = m.Contribution;
-        return money;
-      }).ToList();
-
-      var userDTO = new UserContDTO
-      {
-        Name = user.Name,
-        Contributions = userContributions
-      };
-
-      return userDTO;
+        Console.WriteLine("Error trying to fetch user!" + e.Message);
+        return null;
+      }
     }
 
     [HttpPost]
@@ -99,7 +108,7 @@ namespace CoYBackend.Controllers
     [HttpPost("Money")]
     public async Task<ActionResult<Money>> Post(MoneyDTO moneyDTO)
     {
-      if (moneyDTO.Contribution == 0)
+      if (moneyDTO.Contribution == 0 || moneyDTO.UserId == 0)
       {
         return BadRequest();
       }
