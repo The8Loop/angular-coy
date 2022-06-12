@@ -1,0 +1,14 @@
+.section {
+    display: flex;
+    border-bottom: 1px solid #3e8e41;
+    width: 100%;
+}
+
+.text-box {
+    max-height: 500px;
+    max-width: 500px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #3c4938;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
