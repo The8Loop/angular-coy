@@ -11,14 +11,21 @@
   </div>
 </div>
 
-<div class="section"></div>
-<div class="section"></div>
+<div class="section">
+  <div class="topic" *ngFor="let topic of lodestoneTopics;">
+    <a href={{topic.url}}>
+      <img src={{topic.image}}>
+    </a><br>
+    {{topic.time}}
+    <p>{{topic.description}}</p>
+  </div>
+</div>
 
 <div class="section">
   <div class="maintenance-info">
     <a href={{lodestoneMaintenance.companion[0].url}}>{{lodestoneMaintenance.companion[0].title}}</a><br>
-    Start Time: {{startDate}}<br>
-    End Time: {{endDate}}<br>
+    Start Time: {{lodestoneMaintenance.companion[0].start}}<br>
+    End Time: {{lodestoneMaintenance.companion[0].end}}<br>
     Currently Ongoing: {{lodestoneMaintenance.companion[0].current}}
   </div>
 </div>

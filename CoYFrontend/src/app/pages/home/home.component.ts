@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { LodestoneMaintenance } from 'src/app/model/lodestone';
+import { map, observable, take } from 'rxjs';
+import { LodestoneMaintenance, LodestoneTopic } from 'src/app/model/lodestone';
 import { LodestoneService } from 'src/app/services/lodestone.service';
 
 @Component({
@@ -9,9 +10,7 @@ import { LodestoneService } from 'src/app/services/lodestone.service';
 })
 export class HomeComponent implements OnInit {
 
-  time?: Date;
-  startDate?: Date;
-  endDate?: Date;
+  lodestoneTopics: LodestoneTopic[] = [];
 
   lodestoneMaintenance: LodestoneMaintenance = {
     companion: []
@@ -20,13 +19,19 @@ export class HomeComponent implements OnInit {
   constructor(private lodestoneService: LodestoneService) { }
 
   ngOnInit(): void {
-    this.lodestoneService.getMaintenance().subscribe(lodestoneMaintenance => this.lodestoneMaintenance = lodestoneMaintenance);
+    this.lodestoneService.getTopics().pipe(
+      map(e => {
+        e = e.splice(0, 3);
+        e.forEach(e => e.time = (new Date(e.time)).toString());
+        return e;
+      }))
+      .subscribe(lodestoneTopics => this.lodestoneTopics = lodestoneTopics);
+    this.lodestoneService.getMaintenance().pipe(
+      map(e => {
+        e.companion[0].start = new Date(e.companion[0].start).toString();
+        e.companion[0].end = new Date(e.companion[0].end).toString();
+        return e;
+      })
+    ).subscribe(lodestoneMaintenance => this.lodestoneMaintenance = lodestoneMaintenance);
   }
-
-  ngAfterViewInit(): void {
-    this.time = new Date(this.lodestoneMaintenance.companion[0].time);
-    this.startDate = new Date(this.lodestoneMaintenance.companion[0].start);
-    this.endDate = new Date(this.lodestoneMaintenance.companion[0].end);
-  }
-
 }
