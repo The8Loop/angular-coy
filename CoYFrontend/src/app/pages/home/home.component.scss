@@ -2,13 +2,28 @@
     display: flex;
     border-bottom: 1px solid #3e8e41;
     width: 100%;
+    justify-content: space-around;
+}
+
+.emblem img {
+    height: 300px;
+    margin: 20px;
 }
 
 .text-box {
-    max-height: 500px;
+    max-height: 200px;
     max-width: 500px;
     margin: 20px;
     padding: 20px;
     background-color: #3c4938;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    align-self: center;
+}
+
+.maintenance-info {
+    margin: 20px;
+}
+
+.maintenance-info a {
+    color: white;
 }

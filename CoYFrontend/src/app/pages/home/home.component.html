@@ -1,4 +1,7 @@
 <div class="section">
+  <div class="emblem">
+    <img src="/assets/images/Emblem.png" alt="Council of Yggdrasil's Coat of Arms featuring a Tree.">
+  </div>
   <div class="text-box">
     <h2>Our Free Company</h2>
     <p>As a free company on NA Aether: Faerie, we enjoy doing all sorts of content including trials, dungeons, raids,
@@ -7,6 +10,15 @@
     </p>
   </div>
 </div>
+
 <div class="section"></div>
 <div class="section"></div>
-<div class="section"></div>
+
+<div class="section">
+  <div class="maintenance-info">
+    <a href={{lodestoneMaintenance.companion[0].url}}>{{lodestoneMaintenance.companion[0].title}}</a><br>
+    Start Time: {{startDate}}<br>
+    End Time: {{endDate}}<br>
+    Currently Ongoing: {{lodestoneMaintenance.companion[0].current}}
+  </div>
+</div>
