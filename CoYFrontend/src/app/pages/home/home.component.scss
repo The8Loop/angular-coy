@@ -6,6 +6,36 @@
     flex-wrap: wrap;
 }
 
+.image-container-img {
+    width: 100%;
+    object-fit: cover;
+    max-height: 570px;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+}
+
+.image-container-overlay {
+    position: absolute;
+    display: flex;
+    width: 500px;
+    height: 300px;
+    padding: 10px;
+    background-color: rgba(60, 73, 56, 0.9);
+}
+
+.leader-text {
+    top: 50px;
+    left: 100px;
+}
+
+.leader-text img {
+    height: 100%;
+    margin-right: 10px;
+}
+
 .emblem img {
     height: 300px;
     margin: 20px;

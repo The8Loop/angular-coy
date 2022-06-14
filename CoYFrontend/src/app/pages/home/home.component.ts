@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { map, observable, take } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs';
 import { LodestoneMaintenance, LodestoneTopic } from 'src/app/model/lodestone';
 import { LodestoneService } from 'src/app/services/lodestone.service';
 
@@ -23,9 +23,11 @@ export class HomeComponent implements OnInit {
       map(e => {
         e = e.splice(0, 3);
         e.forEach(e => e.time = (new Date(e.time)).toString());
+        console.log({ e });
         return e;
       }))
       .subscribe(lodestoneTopics => this.lodestoneTopics = lodestoneTopics);
+
     this.lodestoneService.getMaintenance().pipe(
       map(e => {
         e.companion[0].start = new Date(e.companion[0].start).toString();
