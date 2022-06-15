@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs';
-import { LodestoneMaintenance, LodestoneTopic } from 'src/app/model/lodestone';
+import { LodestoneMaintenance, LodestoneTopic } from 'src/app/model/lodestone.interface';
 import { LodestoneService } from 'src/app/services/lodestone.service';
 
 @Component({
@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
       map(e => {
         e = e.splice(0, 3);
         e.forEach(e => e.time = (new Date(e.time)).toString());
-        console.log({ e });
         return e;
       }))
       .subscribe(lodestoneTopics => this.lodestoneTopics = lodestoneTopics);

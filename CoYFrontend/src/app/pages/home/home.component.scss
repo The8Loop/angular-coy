@@ -6,15 +6,15 @@
     flex-wrap: wrap;
 }
 
+.image-container {
+    position: relative;
+    width: 100%;
+}
+
 .image-container-img {
     width: 100%;
     object-fit: cover;
     max-height: 570px;
-}
-
-.image-container {
-    position: relative;
-    width: 100%;
 }
 
 .image-container-overlay {
@@ -29,11 +29,10 @@
 .leader-text {
     top: 50px;
     left: 100px;
-}
-
-.leader-text img {
-    height: 100%;
-    margin-right: 10px;
+    img {
+        height: 100%;
+        margin-right: 10px;
+    }
 }
 
 .emblem img {
@@ -54,20 +53,17 @@
 .topic {
     margin-top: 20px;
     width: 400px;
-}
-
-.topic a {
-    color: white;
-}
-
-.topic img {
-    width: 100%;
+    a {
+        color: white;
+    }
+    img {
+        width: 100%;
+    }
 }
 
 .maintenance-info {
     margin: 20px;
-}
-
-.maintenance-info a {
-    color: white;
+    a {
+        color: white; 
+    }
 }

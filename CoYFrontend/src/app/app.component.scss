@@ -8,21 +8,19 @@
 .flex-header-title {
     font-size: 24pt;
     font-weight: bold;
-}
-
-.flex-header-title a {
-    color: inherit;
-    text-decoration: none;
+    a {    
+        color: inherit;
+        text-decoration: none;
+    }
 }
 
 .emblem {
     height: 30px;
     align-self: center;
     margin-right: 10px;
-}
-
-.emblem img {
-    height: 100%;
+    img {
+        height: 100%;
+    }
 }
 
 .flex-header-button {
