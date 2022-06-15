@@ -16,6 +16,7 @@
 <div class="flex-container">
   <div class="flex-column" *ngFor="let user of usersList">
     <div class="flex-row-header">{{user.name}}</div>
-    <div class="flex-row"> {{userTotal(user)}}</div>
+    <div class="flex-row" [ngStyle]="{'background-color':userTotal(user) < 0 ? '#cd3939' : ''}"> {{userTotal(user)}}
+    </div>
   </div>
 </div>

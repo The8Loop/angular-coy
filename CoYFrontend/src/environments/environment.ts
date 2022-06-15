@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5041/api'
+  apiUrl: 'http://localhost:5041/api',
+  lodestoneUrl: 'https://lodestonenews.com/news'
 };
 
 /*

@@ -1,21 +1,29 @@
-.flex-header-container{
+.flex-header-container {
     background-color: rgb(13, 13, 13);
     margin-top: 0;
     padding: 10px;
     display: flex;
 }
 
-.flex-header-title{
+.flex-header-title {
     font-size: 24pt;
     font-weight: bold;
+    a {    
+        color: inherit;
+        text-decoration: none;
+    }
 }
 
-.flex-header-title a{
-    color: inherit;
-    text-decoration: none;
+.emblem {
+    height: 30px;
+    align-self: center;
+    margin-right: 10px;
+    img {
+        height: 100%;
+    }
 }
 
-.flex-header-button{
+.flex-header-button {
     font-size: 16pt;
     background-color: #3e8e41;
     margin-left: 20px;
@@ -24,13 +32,12 @@
     text-decoration: none;
 }
 
-footer{
+footer {
     background-color: black;
     width: 100%;
     padding: 30px;
 }
 
-.page{
+.page {
     min-height: 600px;
-    padding: 20px;
 }

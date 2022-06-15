@@ -1,0 +1,46 @@
+<div class="section">
+  <div class="emblem">
+    <img src="/assets/images/Emblem.png" alt="Council of Yggdrasil's Coat of Arms featuring a Tree.">
+  </div>
+  <div class="text-box">
+    <h2>Our Free Company</h2>
+    <p>As a free company on NA Aether: Faerie, we enjoy doing all sorts of content including trials, dungeons, raids,
+      and are aiming for extremes and savages. Our free company is also passionate about our individual glamour and the
+      development of the estate.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="image-container">
+    <div class="image-container-overlay leader-text">
+      <img src="/assets/images/PrettyBoy.png" alt="A very pretty bunny-boy">
+      <div class="pretty-boy-text">
+        <h2>Zia Mordrem, Our Fearless Harbinger</h2>
+        <p>The prettiest bunny-boy in all of Aether&mdash;in all of FFXIV. Zia Mordrem, raid leader and glamour king, is
+          the harbinger of our free company, and will guide us through end-game.</p>
+      </div>
+    </div>
+    <img class="image-container-img" src="/assets/images/PrettyBoyInCar.png" alt="A very pretty bunny-boy in a car">
+  </div>
+</div>
+
+<div class="section">
+  <div class="topic" *ngFor="let topic of lodestoneTopics;">
+    <a href={{topic.url}}>
+      <img src={{topic.image}}>
+    </a><br>
+    {{topic.time}}
+    <p>{{topic.description}}</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="maintenance-info" *ngIf="lodestoneMaintenance.companion[0]; else elseBlock">
+    <a href={{lodestoneMaintenance.companion[0].url}}>{{lodestoneMaintenance.companion[0].title}}</a><br>
+    Start Time: {{lodestoneMaintenance.companion[0].start}}<br>
+    End Time: {{lodestoneMaintenance.companion[0].end}}<br>
+    Currently Ongoing: {{lodestoneMaintenance.companion[0].current}}
+  </div>
+  <ng-template #elseBlock>No Ongoing Maintenance</ng-template>
+</div>

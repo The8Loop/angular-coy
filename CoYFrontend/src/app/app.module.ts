@@ -10,6 +10,7 @@ import { DropdownComponent } from './shared/dropdown/dropdown.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FinancialListComponent } from './shared/financial-list/financial-list.component';
 import { APP_BASE_HREF } from '@angular/common';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { APP_BASE_HREF } from '@angular/common';
     CreateComponent,
     InputIntComponent,
     DropdownComponent,
-    FinancialListComponent
+    FinancialListComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
