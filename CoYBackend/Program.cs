@@ -12,15 +12,10 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-if (!builder.Environment.IsDevelopment())
-{
-  var serverVersion = new MySqlServerVersion(new Version(8, 0, 28));
-  builder.Services.AddDbContext<CoYBackendContext>(options => options.UseMySql(connectionString, serverVersion));
-}
-else
-{
-  builder.Services.AddDbContext<CoYBackendContext>(options => options.UseSqlServer(connectionString));
-}
+
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 28));
+builder.Services.AddDbContext<CoYBackendContext>(options => options.UseMySql(connectionString, serverVersion));
+
 
 var app = builder.Build();
 
