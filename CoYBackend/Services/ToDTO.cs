@@ -5,6 +5,16 @@ namespace CoYBackend.Services
   public class ToDTO
   {
 
+    public UserDTO ToUserDTO(User u)
+    {
+      var userDTO = new UserDTO()
+      {
+        Id = u.Id,
+        Name = u.Name
+      };
+      return userDTO;
+    }
+
     public MoneyDTO ToMoneyDTO(Money m)
     {
       var moneyDTO = new MoneyDTO()

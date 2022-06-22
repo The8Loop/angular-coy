@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
+using CoYBackend.Services;
 
 namespace CoYBackend.Controllers
 {
@@ -21,15 +22,8 @@ namespace CoYBackend.Controllers
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
     {
       var userList = await _context.users.ToListAsync();
-      var userDTOList = userList.Select(u =>
-      {
-        var userDTO = new UserDTO()
-        {
-          Id = u.Id,
-          Name = u.Name
-        };
-        return userDTO;
-      }).ToList();
+      var toDTO = new ToDTO();
+      var userDTOList = userList.Select(u => toDTO.ToUserDTO(u)).ToList();
       return userDTOList;
     }
 
