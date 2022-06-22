@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
+using CoYBackend.Services;
 
 
 namespace CoYBackend.Controllers
@@ -23,16 +24,8 @@ namespace CoYBackend.Controllers
     {
       //return await _context.money.ToListAsync();
       var moneyList = await _context.money.ToListAsync();
-      var moneyDTOList = moneyList.Select(m =>
-      {
-        var moneyDTO = new MoneyDTO()
-        {
-          Contribution = m.Contribution,
-          UserId = m.UserId
-        };
-        return moneyDTO;
-      }).ToList();
-
+      var toDTO = new ToDTO();
+      var moneyDTOList = moneyList.Select(m => toDTO.ToMoneyDTO(m)).ToList();
       return moneyDTOList;
     }
 
@@ -41,18 +34,14 @@ namespace CoYBackend.Controllers
     public async Task<ActionResult<MoneyDTO>> GetMoney(int id)
     {
       var money = await _context.money.FindAsync(id);
+      var toDTO = new ToDTO();
 
       if (money == null)
       {
         return NotFound();
       }
 
-      var moneyDTO = new MoneyDTO
-      {
-        Contribution = money.Contribution,
-        UserId = money.UserId
-      };
-
+      var moneyDTO = toDTO.ToMoneyDTO(money);
       return moneyDTO;
     }
 
