@@ -4,13 +4,22 @@ namespace CoYBackend.Services
 {
   public class ToDTO
   {
-
     public UserDTO ToUserDTO(User u)
     {
       var userDTO = new UserDTO()
       {
         Id = u.Id,
         Name = u.Name
+      };
+      return userDTO;
+    }
+
+    public UserContDTO ToUserContDTO(User u)
+    {
+      var userDTO = new UserContDTO()
+      {
+        Name = u.Name,
+        Contributions = u.Contributions.Select(m => ToMoneyDTO(m)).ToList()
       };
       return userDTO;
     }
@@ -27,18 +36,4 @@ namespace CoYBackend.Services
       return moneyDTO;
     }
   }
-
-
-  //   public class UserContDTO
-  //   {
-  //     public string Name { get; set; }
-
-  //     public List<long>? Contributions { get; set; }
-  //   }
-
-  //   public class UserDTO
-  //   {
-  //     public int Id { get; set; }
-  //     public string Name { get; set; }
-  //   }
 }

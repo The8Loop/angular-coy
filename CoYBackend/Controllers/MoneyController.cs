@@ -22,7 +22,6 @@ namespace CoYBackend.Controllers
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney()
     {
-      //return await _context.money.ToListAsync();
       var moneyList = await _context.money.ToListAsync();
       var toDTO = new ToDTO();
       var moneyDTOList = moneyList.Select(m => toDTO.ToMoneyDTO(m)).ToList();
@@ -43,37 +42,6 @@ namespace CoYBackend.Controllers
 
       var moneyDTO = toDTO.ToMoneyDTO(money);
       return moneyDTO;
-    }
-
-    // PUT: api/Money/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutMoney(int id, Money money)
-    {
-      if (id != money.Id || money.Contribution == 0)
-      {
-        return BadRequest();
-      }
-
-      _context.Entry(money).State = EntityState.Modified;
-
-      try
-      {
-        await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        if (!MoneyExists(id))
-        {
-          return NotFound();
-        }
-        else
-        {
-          throw;
-        }
-      }
-
-      return NoContent();
     }
 
     // DELETE: api/Money/5

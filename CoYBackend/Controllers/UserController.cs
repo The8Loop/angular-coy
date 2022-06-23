@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
 using CoYBackend.Services;
 
@@ -11,154 +10,54 @@ namespace CoYBackend.Controllers
   {
 
     private readonly CoYBackendContext _context;
+    private readonly IUserRepo _userRepo;
 
-    public UserController(CoYBackendContext context)
+    public UserController(IUserRepo UserRepo, CoYBackendContext context)
     {
       _context = context;
+      _userRepo = UserRepo;
     }
-
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
     {
-      var userList = await _context.users.ToListAsync();
-      var toDTO = new ToDTO();
-      var userDTOList = userList.Select(u => toDTO.ToUserDTO(u)).ToList();
-      return userDTOList;
+      return await _userRepo.GetAll();
     }
 
     [HttpGet("Money")]
     public async Task<ActionResult<IEnumerable<UserContDTO>>> Get()
     {
-      var userList = await _context.users.Include(u => u.Contributions).ToListAsync();
-      var userDTOList = userList.Select(u =>
-      {
-        var userContributions = u.Contributions.Select(m =>
-        {
-          var money = new long();
-          money = m.Contribution;
-          return money;
-        }).ToList();
-
-        var userDTO = new UserContDTO()
-        {
-          Name = u.Name,
-          Contributions = userContributions
-        };
-        return userDTO;
-      }).ToList();
-      return userDTOList;
+      return await _userRepo.Get();
     }
 
     [HttpGet("{Id}")]
     public async Task<ActionResult<UserContDTO>> Get(int Id)
     {
-      try
-      {
-
-        var user = await _context.users.Include(i => i.Contributions).FirstAsync(i => i.Id == Id);
-
-        if (user == null)
-        {
-          return NotFound();
-        }
-
-        var userContributions = user.Contributions.Select(m =>
-        {
-          var money = new long();
-          money = m.Contribution;
-          return money;
-        }).ToList();
-
-        var userDTO = new UserContDTO
-        {
-          Name = user.Name,
-          Contributions = userContributions
-        };
-
-        return userDTO;
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine("Error trying to fetch user!" + e.Message);
-        return null;
-      }
+      return await _userRepo.Get(Id);
     }
 
     [HttpPost]
     public async Task<ActionResult<User>> Post(UserDTO userDTO)
     {
-      var user = new User
-      {
-        Id = userDTO.Id,
-        Name = userDTO.Name
-      };
-
-      _context.users.Add(user);
-      await _context.SaveChangesAsync();
-      return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
+      return await _userRepo.Post(userDTO);
     }
 
     [HttpPost("Money")]
     public async Task<ActionResult<Money>> Post(MoneyDTO moneyDTO)
     {
-      if (moneyDTO.Contribution == 0 || moneyDTO.UserId == 0)
-      {
-        return BadRequest();
-      }
-
-      var money = new Money
-      {
-        Contribution = moneyDTO.Contribution,
-        UserId = moneyDTO.UserId
-      };
-      _context.money.Add(money);
-      await _context.SaveChangesAsync();
-      return CreatedAtAction(nameof(MoneyController.GetMoney), "Money", new { id = money.Id }, money);
+      return await _userRepo.Post(moneyDTO);
     }
 
     [HttpPut("{Id}")]
     public async Task<ActionResult> Put(int Id, User user)
     {
-      if (Id != user.Id)
-      {
-        return BadRequest();
-      }
-
-      _context.Entry(user).State = EntityState.Modified;
-
-      try
-      {
-        await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        if (!_context.users.Any(e => e.Id == Id)) //Check if User user paramater exists in database
-        {
-          return NotFound();
-        }
-        else
-        {
-          throw;
-        }
-      }
-
-      return NoContent();
+      return await _userRepo.Put(Id, user);
     }
 
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-      var user = await _context.users.FindAsync(Id);
-      if (user == null)
-      {
-        return NotFound();
-      }
-
-      _context.users.Remove(user);
-      await _context.SaveChangesAsync();
-
-      return NoContent();
+      return await _userRepo.Delete(Id);
     }
   }
 }
