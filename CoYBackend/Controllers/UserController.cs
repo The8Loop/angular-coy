@@ -8,13 +8,10 @@ namespace CoYBackend.Controllers
   [ApiController]
   public class UserController : ControllerBase
   {
-
-    private readonly CoYBackendContext _context;
     private readonly IUserRepo _userRepo;
 
-    public UserController(IUserRepo UserRepo, CoYBackendContext context)
+    public UserController(IUserRepo UserRepo)
     {
-      _context = context;
       _userRepo = UserRepo;
     }
 

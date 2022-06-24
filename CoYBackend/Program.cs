@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
+builder.Services.AddTransient<IMoneyRepo, MoneyRepo>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

@@ -1,9 +1,7 @@
 #nullable disable
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
 using CoYBackend.Services;
-
 
 namespace CoYBackend.Controllers
 {
@@ -11,58 +9,32 @@ namespace CoYBackend.Controllers
   [ApiController]
   public class MoneyController : ControllerBase
   {
-    private readonly CoYBackendContext _context;
+    private readonly IMoneyRepo _moneyRepo;
 
-    public MoneyController(CoYBackendContext context)
+    public MoneyController(IMoneyRepo MoneyRepo)
     {
-      _context = context;
+      _moneyRepo = MoneyRepo;
     }
 
     // GET: api/Money
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney()
     {
-      var moneyList = await _context.money.ToListAsync();
-      var toDTO = new ToDTO();
-      var moneyDTOList = moneyList.Select(m => toDTO.ToMoneyDTO(m)).ToList();
-      return moneyDTOList;
+      return await _moneyRepo.Getmoney();
     }
 
     // GET: api/Money/5
     [HttpGet("{id}")]
     public async Task<ActionResult<MoneyDTO>> GetMoney(int id)
     {
-      var money = await _context.money.FindAsync(id);
-      var toDTO = new ToDTO();
-
-      if (money == null)
-      {
-        return NotFound();
-      }
-
-      var moneyDTO = toDTO.ToMoneyDTO(money);
-      return moneyDTO;
+      return await _moneyRepo.GetMoney(id);
     }
 
     // DELETE: api/Money/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMoney(int id)
     {
-      var money = await _context.money.FindAsync(id);
-      if (money == null)
-      {
-        return NotFound();
-      }
-
-      _context.money.Remove(money);
-      await _context.SaveChangesAsync();
-
-      return NoContent();
-    }
-
-    private bool MoneyExists(int id)
-    {
-      return _context.money.Any(e => e.Id == id);
+      return await _moneyRepo.DeleteMoney(id);
     }
   }
 }

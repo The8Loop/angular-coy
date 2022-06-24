@@ -18,28 +18,30 @@ namespace CoYBackend.Services
 
   public class UserRepo : ControllerBase, IUserRepo
   {
+    private readonly ToDTO _toDTO;
+    private readonly FromDTO _fromDTO;
     private readonly CoYBackendContext _context;
 
     public UserRepo(CoYBackendContext context)
     {
       _context = context;
+      _toDTO = new ToDTO();
+      _fromDTO = new FromDTO();
     }
 
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
     {
       var userList = await _context.users.ToListAsync();
-      var toDTO = new ToDTO();
-      var userDTOList = userList.Select(u => toDTO.ToUserDTO(u)).ToList();
+      var userDTOList = userList.Select(u => _toDTO.ToUserDTO(u)).ToList();
       return userDTOList;
     }
 
     public async Task<ActionResult<IEnumerable<UserContDTO>>> Get()
     {
       var userList = await _context.users.Include(u => u.Contributions).ToListAsync();
-      var toDTO = new ToDTO();
       var userDTOList = userList.Select(u =>
       {
-        return toDTO.ToUserContDTO(u);
+        return _toDTO.ToUserContDTO(u);
       }).ToList();
       return userDTOList;
     }
@@ -47,19 +49,17 @@ namespace CoYBackend.Services
     public async Task<ActionResult<UserContDTO>> Get(int Id)
     {
       var user = await _context.users.Include(i => i.Contributions).FirstAsync(i => i.Id == Id);
-      var toDTO = new ToDTO();
       if (user == null)
       {
         return NotFound();
       }
 
-      return toDTO.ToUserContDTO(user);
+      return _toDTO.ToUserContDTO(user);
     }
 
     public async Task<ActionResult<User>> Post(UserDTO userDTO)
     {
-      var fromDTO = new FromDTO();
-      var user = fromDTO.FromUserDTO(userDTO);
+      var user = _fromDTO.FromUserDTO(userDTO);
       _context.users.Add(user);
       await _context.SaveChangesAsync();
       return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
