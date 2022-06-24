@@ -9,7 +9,8 @@ namespace CoYBackend.Services
       var userDTO = new UserDTO()
       {
         Id = u.Id,
-        Name = u.Name
+        Name = u.Name,
+        IsActive = u.IsActive
       };
       return userDTO;
     }

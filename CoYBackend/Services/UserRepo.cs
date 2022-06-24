@@ -71,12 +71,7 @@ namespace CoYBackend.Services
       {
         return BadRequest();
       }
-
-      var money = new Money
-      {
-        Contribution = moneyDTO.Contribution,
-        UserId = moneyDTO.UserId
-      };
+      var money = _fromDTO.FromMoneyDTO(moneyDTO);
       _context.money.Add(money);
       await _context.SaveChangesAsync();
       return CreatedAtAction(nameof(MoneyController.GetMoney), "Money", new { id = money.Id }, money);

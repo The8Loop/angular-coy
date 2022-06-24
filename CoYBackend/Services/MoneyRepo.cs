@@ -26,22 +26,20 @@ namespace CoYBackend.Services
     public async Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney()
     {
       var moneyList = await _context.money.ToListAsync();
-      var toDTO = new ToDTO();
-      var moneyDTOList = moneyList.Select(m => toDTO.ToMoneyDTO(m)).ToList();
+      var moneyDTOList = moneyList.Select(m => _toDTO.ToMoneyDTO(m)).ToList();
       return moneyDTOList;
     }
 
     public async Task<ActionResult<MoneyDTO>> GetMoney(int id)
     {
       var money = await _context.money.FindAsync(id);
-      var toDTO = new ToDTO();
 
       if (money == null)
       {
         return NotFound();
       }
 
-      var moneyDTO = toDTO.ToMoneyDTO(money);
+      var moneyDTO = _toDTO.ToMoneyDTO(money);
       return moneyDTO;
     }
 
