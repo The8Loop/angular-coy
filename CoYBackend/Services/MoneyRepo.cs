@@ -6,54 +6,34 @@ namespace CoYBackend.Services
 {
   public interface IMoneyRepo
   {
-    Task<IActionResult> DeleteMoney(int id);
-    Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney();
-    Task<ActionResult<MoneyDTO>> GetMoney(int id);
+    Task<IActionResult> DeleteMoney(Money money);
+    Task<IEnumerable<Money>> Getmoney();
+    Task<Money> GetMoney(int id);
   }
 
   public class MoneyRepo : ControllerBase, IMoneyRepo
   {
-    private readonly ToDTO _toDTO;
-    private readonly FromDTO _fromDTO;
     private readonly CoYBackendContext _context;
     public MoneyRepo(CoYBackendContext context)
     {
       _context = context;
-      _toDTO = new ToDTO();
-      _fromDTO = new FromDTO();
     }
 
-    public async Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney()
+    public async Task<IEnumerable<Money>> Getmoney()
     {
       var moneyList = await _context.money.ToListAsync();
-      var moneyDTOList = moneyList.Select(m => _toDTO.ToMoneyDTO(m)).ToList();
-      return moneyDTOList;
+      return moneyList;
     }
 
-    public async Task<ActionResult<MoneyDTO>> GetMoney(int id)
+    public async Task<Money> GetMoney(int id)
     {
-      var money = await _context.money.FindAsync(id);
-
-      if (money == null)
-      {
-        return NotFound();
-      }
-
-      var moneyDTO = _toDTO.ToMoneyDTO(money);
-      return moneyDTO;
+      return await _context.money.FindAsync(id);
     }
 
-    public async Task<IActionResult> DeleteMoney(int id)
+    public async Task<IActionResult> DeleteMoney(Money money)
     {
-      var money = await _context.money.FindAsync(id);
-      if (money == null)
-      {
-        return NotFound();
-      }
-
       _context.money.Remove(money);
       await _context.SaveChangesAsync();
-
       return NoContent();
     }
   }
