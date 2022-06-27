@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
-using CoYBackend.Controllers;
 
 namespace CoYBackend.Services
 {
@@ -13,6 +11,7 @@ namespace CoYBackend.Services
     Task<IEnumerable<User>> GetAll();
     Task Post(User user);
     Task Post(Money money);
+    Task Put(int Id, UserDTO userDTO, User user);
   }
 
   public class UserRepo : IUserRepo
@@ -60,6 +59,13 @@ namespace CoYBackend.Services
     public async Task Delete(User user)
     {
       _context.users.Remove(user);
+      await _context.SaveChangesAsync();
+    }
+
+    public async Task Put(int Id, UserDTO userDTO, User user)
+    {
+      user.Name = userDTO.Name;
+      user.IsActive = userDTO.IsActive;
       await _context.SaveChangesAsync();
     }
   }

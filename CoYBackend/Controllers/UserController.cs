@@ -77,5 +77,24 @@ namespace CoYBackend.Controllers
       await _userRepo.Delete(user);
       return NoContent();
     }
+
+    [HttpPut("{Id}")]
+    public async Task<IActionResult> Put(int Id, UserDTO userDTO)
+    {
+      if (Id != userDTO.Id)
+      {
+        return BadRequest();
+      }
+
+      var user = await _userRepo.Get(Id);
+      if (user == null)
+      {
+        return NotFound();
+      }
+
+      await _userRepo.Put(Id, userDTO, user);
+
+      return NoContent();
+    }
   }
 }
