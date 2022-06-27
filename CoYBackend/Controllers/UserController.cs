@@ -8,53 +8,88 @@ namespace CoYBackend.Controllers
   [ApiController]
   public class UserController : ControllerBase
   {
+    private readonly ToDTO _toDTO;
+    private readonly FromDTO _fromDTO;
     private readonly IUserRepo _userRepo;
 
     public UserController(IUserRepo UserRepo)
     {
       _userRepo = UserRepo;
+      _toDTO = new ToDTO();
+      _fromDTO = new FromDTO();
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
     {
-      return await _userRepo.GetAll();
+      var userList = await _userRepo.GetAll();
+      var userDTOList = userList.Select(u => _toDTO.ToUserDTO(u)).ToList();
+      return userDTOList;
     }
 
     [HttpGet("Money")]
     public async Task<ActionResult<IEnumerable<UserContDTO>>> Get()
     {
-      return await _userRepo.Get();
+      var userList = await _userRepo.Get();
+      var userDTOList = userList.Select(u => _toDTO.ToUserContDTO(u)).ToList();
+      return userDTOList;
     }
 
     [HttpGet("{Id}")]
     public async Task<ActionResult<UserContDTO>> Get(int Id)
     {
-      return await _userRepo.Get(Id);
+      var user = await _userRepo.Get(Id);
+      if (user == null)
+      {
+        return NotFound();
+      }
+      return _toDTO.ToUserContDTO(user);
     }
 
     [HttpPost]
     public async Task<ActionResult<User>> Post(UserDTO userDTO)
     {
-      return await _userRepo.Post(userDTO);
+      var user = _fromDTO.FromUserDTO(userDTO);
+      await _userRepo.Post(user);
+      return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
     }
 
     [HttpPost("Money")]
     public async Task<ActionResult<Money>> Post(MoneyDTO moneyDTO)
     {
-      return await _userRepo.Post(moneyDTO);
+      if (moneyDTO.Contribution == 0 || moneyDTO.UserId == 0)
+      {
+        return BadRequest();
+      }
+      var money = _fromDTO.FromMoneyDTO(moneyDTO);
+      await _userRepo.Post(money);
+      return CreatedAtAction(nameof(MoneyController.GetMoney), "Money", new { id = money.Id }, money);
     }
 
     [HttpPut("{Id}")]
     public async Task<ActionResult> Put(int Id, User user)
     {
-      return await _userRepo.Put(Id, user);
+      if (Id != user.Id)
+      {
+        return BadRequest();
+      }
+
+      await _userRepo.Put(Id, user);
+
+      return NoContent();
+
     }
 
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-      return await _userRepo.Delete(Id);
+      var user = await _userRepo.Get(Id);
+      if (user == null)
+      {
+        return NotFound();
+      }
+      await _userRepo.Delete(user);
+      return NoContent();
     }
   }
 }

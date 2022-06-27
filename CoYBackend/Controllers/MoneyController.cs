@@ -1,6 +1,5 @@
 #nullable disable
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
 using CoYBackend.Services;
 
@@ -50,7 +49,9 @@ namespace CoYBackend.Controllers
       {
         return NotFound();
       }
-      return await _moneyRepo.DeleteMoney(money);
+      await _moneyRepo.DeleteMoney(money);
+
+      return NoContent();
     }
   }
 }
