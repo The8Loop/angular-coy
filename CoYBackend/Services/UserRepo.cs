@@ -13,7 +13,6 @@ namespace CoYBackend.Services
     Task<IEnumerable<User>> GetAll();
     Task Post(User user);
     Task Post(Money money);
-    Task Put(int Id, User user);
   }
 
   public class UserRepo : IUserRepo
@@ -43,7 +42,7 @@ namespace CoYBackend.Services
 
     public async Task<User> Get(int Id)
     {
-      return await _context.users.Include(i => i.Contributions).FirstAsync(i => i.Id == Id);
+      return await _context.users.Include(i => i.Contributions).FirstOrDefaultAsync(i => i.Id == Id);
     }
 
     public async Task Post(User user)
@@ -56,20 +55,6 @@ namespace CoYBackend.Services
     {
       _context.money.Add(money);
       await _context.SaveChangesAsync();
-    }
-
-    public async Task Put(int Id, User user)
-    {
-      _context.Entry(user).State = EntityState.Modified;
-
-      try
-      {
-        await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException e)
-      {
-        _validator.Error(Id, e, _context);
-      }
     }
 
     public async Task Delete(User user)

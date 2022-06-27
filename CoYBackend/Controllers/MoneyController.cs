@@ -25,7 +25,7 @@ namespace CoYBackend.Controllers
     public async Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney()
     {
       var moneyList = await _moneyRepo.Getmoney();
-      return moneyList.Select(m => _toDTO.ToMoneyDTO(m)).ToList(); ;
+      return moneyList.Select(m => _toDTO.ToMoneyDTO(m)).ToList();
     }
 
     // GET: api/Money/5
