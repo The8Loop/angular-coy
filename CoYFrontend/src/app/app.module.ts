@@ -11,6 +11,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FinancialListComponent } from './shared/financial-list/financial-list.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { HomeComponent } from './pages/home/home.component';
+import { ContributionMainComponent } from './pages/contribution-main/contribution-main.component';
+import { ContributionDetailsComponent } from './pages/contribution-details/contribution-details.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { HomeComponent } from './pages/home/home.component';
     InputIntComponent,
     DropdownComponent,
     FinancialListComponent,
-    HomeComponent
+    HomeComponent,
+    ContributionMainComponent,
+    ContributionDetailsComponent
   ],
   imports: [
     BrowserModule,
