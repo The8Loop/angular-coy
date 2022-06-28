@@ -2,6 +2,7 @@ namespace CoYBackend.Models
 {
   public class MoneyDTO
   {
+    public int Id { get; set; }
     public long Contribution { get; set; }
     public DateTime Date { get; set; }
 

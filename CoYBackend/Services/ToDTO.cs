@@ -29,6 +29,7 @@ namespace CoYBackend.Services
     {
       var moneyDTO = new MoneyDTO()
       {
+        Id = m.Id,
         Contribution = m.Contribution,
         Date = m.Date,
         ContributionTypeId = m.ContributionTypeId,

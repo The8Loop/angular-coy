@@ -8,6 +8,7 @@ namespace CoYBackend.Services
     Task DeleteMoney(Money money);
     Task<IEnumerable<Money>> Getmoney();
     Task<Money> GetMoney(int id);
+    Task Put(int Id, MoneyDTO moneyDTO, Money money);
   }
 
   public class MoneyRepo : IMoneyRepo
@@ -31,6 +32,13 @@ namespace CoYBackend.Services
     public async Task DeleteMoney(Money money)
     {
       _context.money.Remove(money);
+      await _context.SaveChangesAsync();
+    }
+
+    public async Task Put(int Id, MoneyDTO moneyDTO, Money money)
+    {
+      money.Contribution = moneyDTO.Contribution;
+      money.ContributionTypeId = moneyDTO.ContributionTypeId;
       await _context.SaveChangesAsync();
     }
   }

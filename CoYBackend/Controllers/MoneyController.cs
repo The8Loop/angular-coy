@@ -53,5 +53,24 @@ namespace CoYBackend.Controllers
 
       return NoContent();
     }
+
+    [HttpPut("{Id}")]
+    public async Task<IActionResult> Put(int Id, MoneyDTO moneyDTO)
+    {
+      if (Id != moneyDTO.Id)
+      {
+        return BadRequest();
+      }
+
+      var money = await _moneyRepo.GetMoney(Id);
+      if (money == null)
+      {
+        return NotFound();
+      }
+
+      await _moneyRepo.Put(Id, moneyDTO, money);
+
+      return NoContent();
+    }
   }
 }
