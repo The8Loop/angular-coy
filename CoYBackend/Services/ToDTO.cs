@@ -20,7 +20,7 @@ namespace CoYBackend.Services
       var userDTO = new UserContDTO()
       {
         Name = u.Name,
-        Contributions = u.Contributions.Select(m => ToMoneyDTO(m)).ToList()
+        Contributions = u.Contributions.Select(m => m.Contribution).ToList()
       };
       return userDTO;
     }

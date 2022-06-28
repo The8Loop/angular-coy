@@ -4,7 +4,7 @@ namespace CoYBackend.Models
   {
     public string Name { get; set; }
 
-    public List<MoneyDTO> Contributions { get; set; }
+    public List<long> Contributions { get; set; }
   }
 
   public class UserDTO
