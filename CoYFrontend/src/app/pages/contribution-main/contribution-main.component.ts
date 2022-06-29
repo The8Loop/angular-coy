@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/model/user.interface';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'coy-contribution-main',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContributionMainComponent implements OnInit {
 
-  constructor() { }
+  users: User[] = [];
+
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
+    //Request list of users from server
+    this.usersService.getAll().subscribe(users => this.users = users);
   }
 
 }

@@ -20,6 +20,10 @@ export class UsersService {
     return this.http.get<User[]>(`${environment.apiUrl}/User`);
   }
 
+  getUser(id: number): Observable<UserContribution> {
+    return this.http.get<UserContribution>(`${environment.apiUrl}/User/${id}`)
+  }
+
   /**
    * api/User/Money Get request that retrieves a list of all users and their contributions.
    * @returns An observable of UserCont[]

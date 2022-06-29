@@ -13,6 +13,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HomeComponent } from './pages/home/home.component';
 import { ContributionMainComponent } from './pages/contribution-main/contribution-main.component';
 import { ContributionDetailsComponent } from './pages/contribution-details/contribution-details.component';
+import { PlayerListComponent } from './shared/player-list/player-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ContributionDetailsComponent } from './pages/contribution-details/contr
     FinancialListComponent,
     HomeComponent,
     ContributionMainComponent,
-    ContributionDetailsComponent
+    ContributionDetailsComponent,
+    PlayerListComponent
   ],
   imports: [
     BrowserModule,
