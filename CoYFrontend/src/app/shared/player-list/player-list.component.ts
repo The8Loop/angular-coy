@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { User } from 'src/app/model/user.interface';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'coy-player-list',

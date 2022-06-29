@@ -21,7 +21,7 @@ namespace CoYBackend.Services
 
     public async Task<IEnumerable<Money>> Getmoney()
     {
-      return await _context.money.ToListAsync();
+      return await _context.money.Include(m => m.ContributionType).ToListAsync();
     }
 
     public async Task<Money> GetMoney(int id)

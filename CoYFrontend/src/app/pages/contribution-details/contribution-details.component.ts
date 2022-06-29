@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User, UserContribution } from 'src/app/model/user.interface';
 import { UsersService } from 'src/app/services/users.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'coy-contribution-details',
@@ -11,8 +11,8 @@ import { Observable, switchMap } from 'rxjs';
 })
 export class ContributionDetailsComponent implements OnInit {
 
-  // users: Users[] = [];
-  user!: UserContribution;
+  users: User[] = [];
+  user: UserContribution | null = null;
   selectedId = 0;
 
   constructor(
@@ -22,7 +22,8 @@ export class ContributionDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     //Request list of users from server
-    //this.usersService.getAll().subscribe(users => this.users = users);
+    this.usersService.getAll().subscribe(users => this.users = users);
+
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.selectedId = parseInt(params.get('id')!, 10);
@@ -30,6 +31,4 @@ export class ContributionDetailsComponent implements OnInit {
       })
     ).subscribe(user => this.user = user);
   }
-
-
 }

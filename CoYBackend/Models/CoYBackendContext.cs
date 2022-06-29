@@ -25,7 +25,7 @@ namespace CoYBackend.Models
       .HasPrincipalKey(u => u.Id);
 
       modelBuilder.Entity<Money>()
-      .HasOne(m => m.Contribution_Type)
+      .HasOne(m => m.ContributionType)
       .WithMany(c => c.Money)
       .HasForeignKey(m => m.ContributionTypeId)
       .HasPrincipalKey(u => u.Id);

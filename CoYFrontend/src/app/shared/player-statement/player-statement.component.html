@@ -1,0 +1,12 @@
+<div class="container" *ngIf="user ; else elseBlock">
+  <div class="transaction-list">
+    <div class="rows" *ngFor="let contribution of user.contributions">
+      <div>{{contribution.contributionType}}</div>
+      <div>{{contribution.date}}</div>
+      <div>{{contribution.contribution}}</div>
+    </div>
+  </div>
+</div>
+<ng-template #elseBlock>
+  <h1>Loading</h1>
+</ng-template>

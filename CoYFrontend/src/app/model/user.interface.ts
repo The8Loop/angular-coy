@@ -1,3 +1,5 @@
+import { MoneyDTO } from "./money.interface";
+
 //Backend: UserDTO
 export interface User {
     id: number;
@@ -6,5 +8,5 @@ export interface User {
 
 export interface UserContribution {
     name: string;
-    contributions: number[];
+    contributions: MoneyDTO[];
 }

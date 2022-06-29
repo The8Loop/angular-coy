@@ -5,6 +5,7 @@ namespace CoYBackend.Models
     public int Id { get; set; }
     public long Contribution { get; set; }
     public DateTime Date { get; set; }
+    public string ContributionType { get; set; }
 
     //Foreign Key
     public byte ContributionTypeId { get; set; }

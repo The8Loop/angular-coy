@@ -36,12 +36,12 @@ namespace CoYBackend.Services
 
     public async Task<IEnumerable<User>> Get()
     {
-      return await _context.users.Include(u => u.Contributions).ToListAsync();
+      return await _context.users.Include(u => u.Contributions).ThenInclude(c => c.ContributionType).ToListAsync();
     }
 
     public async Task<User> Get(int Id)
     {
-      return await _context.users.Include(i => i.Contributions).FirstOrDefaultAsync(i => i.Id == Id);
+      return await _context.users.Include(i => i.Contributions).ThenInclude(c => c.ContributionType).FirstOrDefaultAsync(i => i.Id == Id);
     }
 
     public async Task Post(User user)

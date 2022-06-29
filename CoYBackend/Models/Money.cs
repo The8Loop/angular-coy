@@ -12,6 +12,6 @@ namespace CoYBackend.Models
 
     //Navigation Property
     public User User { get; set; }
-    public Contribution_Type Contribution_Type { get; set; }
+    public Contribution_Type ContributionType { get; set; }
   }
 }

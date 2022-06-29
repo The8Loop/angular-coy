@@ -13,7 +13,7 @@ export class CreateComponent implements OnInit {
   users: User[] = [];
   user: User = { name: 'Choose Guild Member', id: 0 };
   contribution = 0;
-  moneyDTO: MoneyDTO = { contribution: 0, userId: 0 };
+  moneyDTO: MoneyDTO = { contribution: 0, userId: 0, contributionType: "", contributionTypeId: 0, date: new Date() };
 
   constructor(private usersService: UsersService) { }
 
@@ -37,7 +37,9 @@ export class CreateComponent implements OnInit {
    */
   onSave(userContribution: number): void {
     this.contribution = userContribution;
-    this.moneyDTO = { contribution: this.contribution, userId: this.user.id };
+    this.moneyDTO = {
+      contribution: this.contribution, userId: this.user.id, date: new Date(), contributionType: "One", contributionTypeId: 1
+    };
     this.usersService.addMoneyForUser(this.moneyDTO).subscribe(moneyDTO => moneyDTO = this.moneyDTO);
   }
 }

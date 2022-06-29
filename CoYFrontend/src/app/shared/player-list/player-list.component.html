@@ -2,7 +2,7 @@
   <a div class="player-list-title" routerLink="/contribution">
     <h2>Main</h2>
   </a>
-  <a class="player-list-content" *ngFor="let user of userList" routerLink="{{user.id}}">
+  <a class="player-list-content" *ngFor="let user of userList" routerLink="/contribution/{{user.id}}">
     <h2>{{user.name}}</h2>
   </a>
 </div>
