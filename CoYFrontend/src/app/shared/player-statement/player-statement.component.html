@@ -1,9 +1,10 @@
 <div class="container" *ngIf="user ; else elseBlock">
   <div class="transaction-list">
-    <div class="rows" *ngFor="let contribution of user.contributions">
-      <div>{{contribution.contributionType}}</div>
-      <div>{{contribution.date}}</div>
-      <div>{{contribution.contribution}}</div>
+    <div class="row" *ngFor="let contribution of user.contributions">
+      <div class="column contributionType">{{contribution.contributionType}}</div>
+      <div class="column date">{{contribution.date}}</div>
+      <div class="column contribution" [ngStyle]="{'background-color': ColorCode(contribution.contributionTypeId)}">
+        {{contribution.contribution}}</div>
     </div>
   </div>
 </div>
