@@ -1,8 +1,8 @@
 <div class="player-list">
-  <a div class="player-list-title" routerLink="/contribution">
-    <h2>Main</h2>
+  <a class="player-list-content title" routerLink="/contribution">
+    <div class="text">Main</div>
   </a>
   <a class="player-list-content" *ngFor="let user of userList" routerLink="/contribution/{{user.id}}">
-    <h2>{{user.name}}</h2>
+    <div class="text">{{user.name}}</div>
   </a>
 </div>
