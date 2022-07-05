@@ -19,6 +19,7 @@ namespace CoYBackend.Services
     {
       var money = new Money
       {
+        Id = m.Id,
         Contribution = m.Contribution,
         Date = m.Date,
         ContributionTypeId = m.ContributionTypeId,

@@ -1,7 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Diagnostics.CodeAnalysis;
-using CoYBackend.Models;
 
 namespace CoYBackend.Models
 {
@@ -15,6 +12,9 @@ namespace CoYBackend.Models
     public DbSet<User> users { get; set; } = null!;
     public DbSet<Money> money { get; set; } = null!;
     public DbSet<Contribution_Type> contribution_type { get; set; } = null!;
+    public DbSet<TotalSP> totalSPDbSet { get; set; }
+
+    public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade yggdrasil { get; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,6 +29,8 @@ namespace CoYBackend.Models
       .WithMany(c => c.Money)
       .HasForeignKey(m => m.ContributionTypeId)
       .HasPrincipalKey(u => u.Id);
+
+      modelBuilder.Entity<TotalSP>().HasNoKey();
     }
   }
 }

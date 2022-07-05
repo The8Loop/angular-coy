@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace CoYBackend.Services
 {
@@ -7,8 +9,9 @@ namespace CoYBackend.Services
   {
     Task DeleteMoney(Money money);
     Task<IEnumerable<Money>> Getmoney();
-    Task<Money> GetMoney(int id);
-    Task Put(int Id, MoneyDTO moneyDTO, Money money);
+    Task<Money> GetMoney(int id, bool tracking = false);
+    Task Put(int Id, Money money);
+    IEnumerable<TotalSP> GetCompanyTotal();
   }
 
   public class MoneyRepo : IMoneyRepo
@@ -24,8 +27,12 @@ namespace CoYBackend.Services
       return await _context.money.Include(m => m.ContributionType).ToListAsync();
     }
 
-    public async Task<Money> GetMoney(int id)
+    public async Task<Money> GetMoney(int id, bool tracking = false)
     {
+      if (tracking = true)
+      {
+        return await _context.money.AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+      }
       return await _context.money.FindAsync(id);
     }
 
@@ -35,11 +42,15 @@ namespace CoYBackend.Services
       await _context.SaveChangesAsync();
     }
 
-    public async Task Put(int Id, MoneyDTO moneyDTO, Money money)
+    public async Task Put(int Id, Money money)
     {
-      money.Contribution = moneyDTO.Contribution;
-      money.ContributionTypeId = moneyDTO.ContributionTypeId;
+      _context.Update(money);
       await _context.SaveChangesAsync();
+    }
+
+    public IEnumerable<TotalSP> GetCompanyTotal()
+    {
+      return _context.Set<TotalSP>().FromSqlRaw("CALL GetCompanyTotal()").ToList();
     }
   }
 }

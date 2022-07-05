@@ -61,16 +61,24 @@ namespace CoYBackend.Controllers
       {
         return BadRequest();
       }
-
-      var money = await _moneyRepo.GetMoney(Id);
+      bool tracking = true;
+      var money = await _moneyRepo.GetMoney(Id, tracking);
       if (money == null)
       {
         return NotFound();
       }
 
-      await _moneyRepo.Put(Id, moneyDTO, money);
+      money = _fromDTO.FromMoneyDTO(moneyDTO);
+
+      await _moneyRepo.Put(Id, money);
 
       return NoContent();
+    }
+
+    [HttpGet("Company")]
+    public IEnumerable<TotalSP> GetCompanyTotal()
+    {
+      return _moneyRepo.GetCompanyTotal();
     }
   }
 }
