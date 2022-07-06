@@ -76,9 +76,10 @@ namespace CoYBackend.Controllers
     }
 
     [HttpGet("Company")]
-    public IEnumerable<TotalSP> GetCompanyTotal()
+    public TotalSP GetCompanyTotal()
     {
-      return _moneyRepo.GetCompanyTotal();
+      var output = _moneyRepo.GetCompanyTotal();
+      return output.ElementAt(0);
     }
   }
 }

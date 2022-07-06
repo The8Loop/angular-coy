@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User, UserContribution } from '../model/user.interface';
-import { MoneyDTO } from '../model/money.interface';
+import { MoneyDTO, TotalSP } from '../model/money.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -39,5 +39,13 @@ export class UsersService {
    */
   addMoneyForUser(moneyDTO: MoneyDTO): Observable<MoneyDTO> {
     return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyDTO);
+  }
+
+  getCompanyTotal(): Observable<TotalSP> {
+    return this.http.get<TotalSP>(`${environment.apiUrl}/Money/Company`);
+  }
+
+  getPlayerTotal(id: number): Observable<TotalSP> {
+    return this.http.get<TotalSP>(`${environment.apiUrl}/User/Money/${id}`);
   }
 }

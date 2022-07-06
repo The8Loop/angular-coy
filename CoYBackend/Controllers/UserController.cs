@@ -96,5 +96,16 @@ namespace CoYBackend.Controllers
 
       return NoContent();
     }
+
+    [HttpGet("Money/{Id}")]
+    public ActionResult<TotalSP> GetPlayerTotal(int Id)
+    {
+      var output = _userRepo.GetPlayerTotal(Id);
+      if (output == null)
+      {
+        return NotFound();
+      }
+      return output.ElementAt(0);
+    }
   }
 }

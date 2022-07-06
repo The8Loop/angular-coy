@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TotalSP } from 'src/app/model/money.interface';
 import { UserContribution } from 'src/app/model/user.interface';
 
 @Component({
@@ -8,9 +9,10 @@ import { UserContribution } from 'src/app/model/user.interface';
 })
 export class PlayerStatementComponent {
 
-  @Input() user: UserContribution | null = null
+  @Input() totalSP: TotalSP | null = null;
+  @Input() user: UserContribution | null = null;
 
-  ColorCode(contributionTypeId: number): string {
+  ColorCodeCell(contributionTypeId: number): string {
     if (contributionTypeId == 1) {
       return '#4CAF50';
     }
@@ -20,5 +22,15 @@ export class PlayerStatementComponent {
     else {
       return '#AF964C';
     }
+  }
+
+  ColorCodeTotal(total: number): string {
+    if (total > 0) {
+      return '#4CAF50';
+    }
+    else if (total < 0) {
+      return '#cd3939';
+    }
+    return 'white';
   }
 }

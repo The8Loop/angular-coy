@@ -6,3 +6,7 @@ export interface MoneyDTO {
     contributionTypeId: number;
     userId: number;
 }
+
+export interface TotalSP {
+    total: number;
+}

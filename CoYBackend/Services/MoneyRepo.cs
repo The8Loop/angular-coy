@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
-using System.Linq.Expressions;
-using System.Linq;
 
 namespace CoYBackend.Services
 {
@@ -50,7 +48,7 @@ namespace CoYBackend.Services
 
     public IEnumerable<TotalSP> GetCompanyTotal()
     {
-      return _context.Set<TotalSP>().FromSqlRaw("CALL GetCompanyTotal()").ToList();
+      return _context.Set<TotalSP>().FromSqlRaw("CALL GetCompanyTotal();").ToList();
     }
   }
 }

@@ -12,6 +12,7 @@ namespace CoYBackend.Services
     Task Post(User user);
     Task Post(Money money);
     Task Put(int Id, UserDTO userDTO, User user);
+    public IEnumerable<TotalSP> GetPlayerTotal(int Id);
   }
 
   public class UserRepo : IUserRepo
@@ -67,6 +68,11 @@ namespace CoYBackend.Services
       user.Name = userDTO.Name;
       user.IsActive = userDTO.IsActive;
       await _context.SaveChangesAsync();
+    }
+
+    public IEnumerable<TotalSP> GetPlayerTotal(int Id)
+    {
+      return _context.Set<TotalSP>().FromSqlRaw($"CALL GetPlayerTotal({Id});").ToList();
     }
   }
 }
