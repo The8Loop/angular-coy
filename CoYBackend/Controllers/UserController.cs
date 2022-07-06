@@ -107,5 +107,16 @@ namespace CoYBackend.Controllers
       }
       return output.ElementAt(0);
     }
+
+    [HttpGet("Leaderboard")]
+    public ActionResult<IEnumerable<Leaderboard>> GetLeaderboard()
+    {
+      var output = _userRepo.GetLeaderboard();
+      if (output == null)
+      {
+        return NotFound();
+      }
+      return output.ToList();
+    }
   }
 }

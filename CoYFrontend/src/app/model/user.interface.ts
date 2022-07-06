@@ -10,3 +10,8 @@ export interface UserContribution {
     name: string;
     contributions: MoneyDTO[];
 }
+
+export interface Leaderboard {
+    name: string;
+    total: number;
+}

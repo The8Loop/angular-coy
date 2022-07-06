@@ -9,4 +9,10 @@ namespace CoYBackend.Models
     //Navigation Property
     public List<Money> Contributions { get; set; }
   }
+
+  public class Leaderboard
+  {
+    public string Name { get; set; }
+    public long total { get; set; }
+  }
 }

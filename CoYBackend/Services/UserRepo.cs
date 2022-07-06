@@ -13,6 +13,7 @@ namespace CoYBackend.Services
     Task Post(Money money);
     Task Put(int Id, UserDTO userDTO, User user);
     public IEnumerable<TotalSP> GetPlayerTotal(int Id);
+    public IEnumerable<Leaderboard> GetLeaderboard();
   }
 
   public class UserRepo : IUserRepo
@@ -73,6 +74,11 @@ namespace CoYBackend.Services
     public IEnumerable<TotalSP> GetPlayerTotal(int Id)
     {
       return _context.Set<TotalSP>().FromSqlRaw($"CALL GetPlayerTotal({Id});").ToList();
+    }
+
+    public IEnumerable<Leaderboard> GetLeaderboard()
+    {
+      return _context.Set<Leaderboard>().FromSqlRaw($"CALL Leaderboard();").ToList();
     }
   }
 }

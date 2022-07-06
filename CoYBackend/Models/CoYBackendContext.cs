@@ -31,6 +31,7 @@ namespace CoYBackend.Models
       .HasPrincipalKey(u => u.Id);
 
       modelBuilder.Entity<TotalSP>().HasNoKey();
+      modelBuilder.Entity<Leaderboard>().HasNoKey();
     }
   }
 }
