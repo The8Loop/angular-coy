@@ -12,6 +12,11 @@ export class PlayerStatementComponent {
   @Input() totalSP: TotalSP | null = null;
   @Input() user: UserContribution | null = null;
 
+  /**
+   * Checks if the contribution type is a personal contribution or withdrawal, and color codes the cell accordingly.
+   * @param contributionTypeId 
+   * @returns String representing color for CSS use.
+   */
   ColorCodeCell(contributionTypeId: number): string {
     if (contributionTypeId == 1) {
       return '#4CAF50';
@@ -24,6 +29,11 @@ export class PlayerStatementComponent {
     }
   }
 
+  /**
+   * Checks if the company total is positive or negative, and color codes accordingly.
+   * @param total 
+   * @returns String representing color for CSS use.
+   */
   ColorCodeTotal(total: number): string {
     if (total > 0) {
       return '#4CAF50';

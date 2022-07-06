@@ -20,6 +20,11 @@ export class UsersService {
     return this.http.get<User[]>(`${environment.apiUrl}/User`);
   }
 
+  /**
+   * api/User/id Get request that retrieves a user by id, including contributions.
+   * @param id
+   * @returns An observable of user.
+   */
   getUser(id: number): Observable<UserContribution> {
     return this.http.get<UserContribution>(`${environment.apiUrl}/User/${id}`)
   }
@@ -41,10 +46,19 @@ export class UsersService {
     return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyDTO);
   }
 
+  /**
+   * api/Money/Company Get request to run stored procedure for free company total
+   * @returns An observable of TotalSP
+   */
   getCompanyTotal(): Observable<TotalSP> {
     return this.http.get<TotalSP>(`${environment.apiUrl}/Money/Company`);
   }
 
+  /**
+   * api/User/Money/id Get request to run stored procedure for player total
+   * @param id
+   * @returns An observable of TotalSP
+   */
   getPlayerTotal(id: number): Observable<TotalSP> {
     return this.http.get<TotalSP>(`${environment.apiUrl}/User/Money/${id}`);
   }
