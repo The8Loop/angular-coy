@@ -18,17 +18,11 @@ namespace CoYBackend.Services
 
   public class UserRepo : IUserRepo
   {
-    private readonly ToDTO _toDTO;
-    private readonly FromDTO _fromDTO;
-    private readonly Validator _validator;
     private readonly CoYBackendContext _context;
 
     public UserRepo(CoYBackendContext context)
     {
       _context = context;
-      _toDTO = new ToDTO();
-      _fromDTO = new FromDTO();
-      _validator = new Validator();
     }
 
     public async Task<IEnumerable<User>> GetAll()
