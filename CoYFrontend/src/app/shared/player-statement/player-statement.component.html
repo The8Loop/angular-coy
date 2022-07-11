@@ -1,0 +1,17 @@
+<div class="container" *ngIf="user ; else elseBlock">
+  <h2>{{user.name}}'s Player Statement</h2>
+  <div class="transaction-list">
+    <div class="row" *ngFor="let contribution of user.contributions">
+      <div class="column contributionType">{{contribution.contributionType}}</div>
+      <div class="column date">{{contribution.date | date : "mediumDate" }}</div>
+      <div class="column contribution" [ngStyle]="{'background-color': ColorCodeCell(contribution.contributionTypeId)}">
+        {{contribution.contribution | number }}</div>
+    </div>
+  </div>
+  <h3 *ngIf="totalSP" [ngStyle]="{'color': ColorCodeTotal(totalSP.total)}">Player Total:
+    {{totalSP.total | number}}
+  </h3>
+</div>
+<ng-template #elseBlock>
+  <h1>Loading</h1>
+</ng-template>

@@ -5,8 +5,8 @@
     <div class="flex-column" *ngFor="let user of usersList">
       <div class="flex-row-header">{{user.name}}</div>
       <div class="flex-row" *ngFor="let contribution of user.contributions"
-        [ngStyle]="{'background-color':contribution < 0 ? '#cd3939' : ''}">
-        {{contribution}}
+        [ngStyle]="{'background-color':contribution.contribution < 0 ? '#cd3939' : ''}">
+        {{contribution.contribution}}
       </div>
     </div>
   </div>

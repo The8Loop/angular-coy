@@ -22,7 +22,10 @@ export class FinancialListComponent {
   userTotal(user: UserContribution): number {
     let total: number = 0;
     if (user.contributions.length != 0) {
-      total = user.contributions.reduce((a, b) => a + b);
+      user.contributions.forEach(c => {
+        total += c.contribution;
+      });
+      //total = user.contributions.reduce((a, b) => a.contribution + b.contribution);
     }
     return total;
   }

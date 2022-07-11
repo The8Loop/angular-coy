@@ -1,0 +1,26 @@
+.player-list {
+    display: flex;
+    flex-direction: column;
+    background-color: #3e8e41;
+    min-height: 600px;
+    width: 200px;
+}
+
+.player-list-content {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border-bottom: solid 2px;
+    :hover {
+        background-color: #3c4938;
+    }
+}
+
+.title {
+    border-bottom: solid 3px;
+}
+
+.text {
+    font-size:x-large;
+    padding: 15px;
+}

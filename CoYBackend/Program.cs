@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
+using CoYBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IUserRepo, UserRepo>();
+builder.Services.AddTransient<IMoneyRepo, MoneyRepo>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

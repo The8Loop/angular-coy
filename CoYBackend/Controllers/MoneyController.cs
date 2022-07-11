@@ -1,8 +1,7 @@
 #nullable disable
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
-
+using CoYBackend.Services;
 
 namespace CoYBackend.Controllers
 {
@@ -10,102 +9,77 @@ namespace CoYBackend.Controllers
   [ApiController]
   public class MoneyController : ControllerBase
   {
-    private readonly CoYBackendContext _context;
+    private readonly ToDTO _toDTO;
+    private readonly FromDTO _fromDTO;
+    private readonly IMoneyRepo _moneyRepo;
 
-    public MoneyController(CoYBackendContext context)
+    public MoneyController(IMoneyRepo MoneyRepo)
     {
-      _context = context;
+      _moneyRepo = MoneyRepo;
+      _toDTO = new ToDTO();
+      _fromDTO = new FromDTO();
     }
 
     // GET: api/Money
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MoneyDTO>>> Getmoney()
     {
-      //return await _context.money.ToListAsync();
-      var moneyList = await _context.money.ToListAsync();
-      var moneyDTOList = moneyList.Select(m =>
-      {
-        var moneyDTO = new MoneyDTO()
-        {
-          Contribution = m.Contribution,
-          UserId = m.UserId
-        };
-        return moneyDTO;
-      }).ToList();
-
-      return moneyDTOList;
+      var moneyList = await _moneyRepo.Getmoney();
+      return moneyList.Select(m => _toDTO.ToMoneyDTO(m)).ToList();
     }
 
     // GET: api/Money/5
     [HttpGet("{id}")]
     public async Task<ActionResult<MoneyDTO>> GetMoney(int id)
     {
-      var money = await _context.money.FindAsync(id);
-
+      var money = await _moneyRepo.GetMoney(id);
       if (money == null)
       {
         return NotFound();
       }
-
-      var moneyDTO = new MoneyDTO
-      {
-        Contribution = money.Contribution,
-        UserId = money.UserId
-      };
-
-      return moneyDTO;
-    }
-
-    // PUT: api/Money/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutMoney(int id, Money money)
-    {
-      if (id != money.Id || money.Contribution == 0)
-      {
-        return BadRequest();
-      }
-
-      _context.Entry(money).State = EntityState.Modified;
-
-      try
-      {
-        await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        if (!MoneyExists(id))
-        {
-          return NotFound();
-        }
-        else
-        {
-          throw;
-        }
-      }
-
-      return NoContent();
+      return _toDTO.ToMoneyDTO(money); ;
     }
 
     // DELETE: api/Money/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMoney(int id)
     {
-      var money = await _context.money.FindAsync(id);
+      var money = await _moneyRepo.GetMoney(id);
+      if (money == null)
+      {
+        return NotFound();
+      }
+      await _moneyRepo.DeleteMoney(money);
+
+      return NoContent();
+    }
+
+    [HttpPut("{Id}")]
+    public async Task<IActionResult> Put(int Id, MoneyDTO moneyDTO)
+    {
+      if (Id != moneyDTO.Id)
+      {
+        return BadRequest();
+      }
+      bool tracking = true;
+      var money = await _moneyRepo.GetMoney(Id, tracking);
       if (money == null)
       {
         return NotFound();
       }
 
-      _context.money.Remove(money);
-      await _context.SaveChangesAsync();
+      money = _fromDTO.FromMoneyDTO(moneyDTO);
+
+      await _moneyRepo.Put(Id, money);
 
       return NoContent();
     }
 
-    private bool MoneyExists(int id)
+    [HttpGet("Company")]
+    public TotalSP GetCompanyTotal()
     {
-      return _context.money.Any(e => e.Id == id);
+      var output = _moneyRepo.GetCompanyTotal();
+      return output.ElementAt(0);
     }
   }
 }

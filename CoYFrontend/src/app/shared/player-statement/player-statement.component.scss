@@ -1,0 +1,23 @@
+.container {
+    margin: 50px;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 3px;
+}
+
+.contributionType {
+    width: 175px;
+}
+
+.date {
+    width: 200px;
+}
+
+.contribution {
+    width: 100px;
+    text-align: right;
+    background-color: #AF964C;
+}

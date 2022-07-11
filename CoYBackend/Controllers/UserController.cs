@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CoYBackend.Models;
+using CoYBackend.Services;
 
 namespace CoYBackend.Controllers
 {
@@ -8,163 +8,115 @@ namespace CoYBackend.Controllers
   [ApiController]
   public class UserController : ControllerBase
   {
+    private readonly ToDTO _toDTO;
+    private readonly FromDTO _fromDTO;
+    private readonly IUserRepo _userRepo;
 
-    private readonly CoYBackendContext _context;
-
-    public UserController(CoYBackendContext context)
+    public UserController(IUserRepo UserRepo)
     {
-      _context = context;
+      _userRepo = UserRepo;
+      _toDTO = new ToDTO();
+      _fromDTO = new FromDTO();
     }
-
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
     {
-      var userList = await _context.users.ToListAsync();
-      var userDTOList = userList.Select(u =>
-      {
-        var userDTO = new UserDTO()
-        {
-          Id = u.Id,
-          Name = u.Name
-        };
-        return userDTO;
-      }).ToList();
+      var userList = await _userRepo.GetAll();
+      var userDTOList = userList.Select(u => _toDTO.ToUserDTO(u)).ToList();
       return userDTOList;
     }
 
     [HttpGet("Money")]
     public async Task<ActionResult<IEnumerable<UserContDTO>>> Get()
     {
-      var userList = await _context.users.Include(u => u.Contributions).ToListAsync();
-      var userDTOList = userList.Select(u =>
-      {
-        var userContributions = u.Contributions.Select(m =>
-        {
-          var money = new long();
-          money = m.Contribution;
-          return money;
-        }).ToList();
-
-        var userDTO = new UserContDTO()
-        {
-          Name = u.Name,
-          Contributions = userContributions
-        };
-        return userDTO;
-      }).ToList();
+      var userList = await _userRepo.Get();
+      var userDTOList = userList.Select(u => _toDTO.ToUserContDTO(u)).ToList();
       return userDTOList;
     }
 
     [HttpGet("{Id}")]
     public async Task<ActionResult<UserContDTO>> Get(int Id)
     {
-      try
+      var user = await _userRepo.Get(Id);
+      if (user == null)
       {
-
-        var user = await _context.users.Include(i => i.Contributions).FirstAsync(i => i.Id == Id);
-
-        if (user == null)
-        {
-          return NotFound();
-        }
-
-        var userContributions = user.Contributions.Select(m =>
-        {
-          var money = new long();
-          money = m.Contribution;
-          return money;
-        }).ToList();
-
-        var userDTO = new UserContDTO
-        {
-          Name = user.Name,
-          Contributions = userContributions
-        };
-
-        return userDTO;
+        return NotFound();
       }
-      catch (Exception e)
-      {
-        Console.WriteLine("Error trying to fetch user!" + e.Message);
-        return null;
-      }
+      return _toDTO.ToUserContDTO(user);
     }
 
     [HttpPost]
     public async Task<ActionResult<User>> Post(UserDTO userDTO)
     {
-      var user = new User
-      {
-        Id = userDTO.Id,
-        Name = userDTO.Name
-      };
-
-      _context.users.Add(user);
-      await _context.SaveChangesAsync();
+      var user = _fromDTO.FromUserDTO(userDTO);
+      await _userRepo.Post(user);
       return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
     }
 
     [HttpPost("Money")]
     public async Task<ActionResult<Money>> Post(MoneyDTO moneyDTO)
     {
-      if (moneyDTO.Contribution == 0 || moneyDTO.UserId == 0)
+      if (moneyDTO.Contribution == 0 || moneyDTO.UserId == 0 || moneyDTO.ContributionTypeId < 1 || moneyDTO.ContributionTypeId > 4)
       {
         return BadRequest();
       }
-
-      var money = new Money
-      {
-        Contribution = moneyDTO.Contribution,
-        UserId = moneyDTO.UserId
-      };
-      _context.money.Add(money);
-      await _context.SaveChangesAsync();
+      var money = _fromDTO.FromMoneyDTO(moneyDTO);
+      await _userRepo.Post(money);
       return CreatedAtAction(nameof(MoneyController.GetMoney), "Money", new { id = money.Id }, money);
-    }
-
-    [HttpPut("{Id}")]
-    public async Task<ActionResult> Put(int Id, User user)
-    {
-      if (Id != user.Id)
-      {
-        return BadRequest();
-      }
-
-      _context.Entry(user).State = EntityState.Modified;
-
-      try
-      {
-        await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        if (!_context.users.Any(e => e.Id == Id)) //Check if User user paramater exists in database
-        {
-          return NotFound();
-        }
-        else
-        {
-          throw;
-        }
-      }
-
-      return NoContent();
     }
 
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-      var user = await _context.users.FindAsync(Id);
+      var user = await _userRepo.Get(Id);
+      if (user == null)
+      {
+        return NotFound();
+      }
+      await _userRepo.Delete(user);
+      return NoContent();
+    }
+
+    [HttpPut("{Id}")]
+    public async Task<IActionResult> Put(int Id, UserDTO userDTO)
+    {
+      if (Id != userDTO.Id)
+      {
+        return BadRequest();
+      }
+
+      var user = await _userRepo.Get(Id);
       if (user == null)
       {
         return NotFound();
       }
 
-      _context.users.Remove(user);
-      await _context.SaveChangesAsync();
+      await _userRepo.Put(Id, userDTO, user);
 
       return NoContent();
+    }
+
+    [HttpGet("Money/{Id}")]
+    public ActionResult<TotalSP> GetPlayerTotal(int Id)
+    {
+      var output = _userRepo.GetPlayerTotal(Id);
+      if (output == null)
+      {
+        return NotFound();
+      }
+      return output.ElementAt(0);
+    }
+
+    [HttpGet("Leaderboard")]
+    public ActionResult<IEnumerable<Leaderboard>> GetLeaderboard()
+    {
+      var output = _userRepo.GetLeaderboard();
+      if (output == null)
+      {
+        return NotFound();
+      }
+      return output.ToList();
     }
   }
 }
