@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TotalSP } from 'src/app/model/money.interface';
 import { UserContribution } from 'src/app/model/user.interface';
 
@@ -7,10 +7,14 @@ import { UserContribution } from 'src/app/model/user.interface';
   templateUrl: './player-statement.component.html',
   styleUrls: ['./player-statement.component.scss']
 })
-export class PlayerStatementComponent {
+export class PlayerStatementComponent implements OnInit {
 
-  @Input() totalSP: TotalSP | null = null;
-  @Input() user: UserContribution | null = null;
+  @Input() totalSP!: TotalSP;
+  @Input() user!: UserContribution;
+
+  ngOnInit(): void {
+    this.user.contributions;
+  }
 
   /**
    * Checks if the contribution type is a personal contribution or withdrawal, and color codes the cell accordingly.

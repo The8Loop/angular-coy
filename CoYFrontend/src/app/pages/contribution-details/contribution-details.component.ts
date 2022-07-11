@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { User, UserContribution } from 'src/app/model/user.interface';
 import { UsersService } from 'src/app/services/users.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { combineLatest, Observable, switchMap } from 'rxjs';
 import { TotalSP } from 'src/app/model/money.interface';
+
+interface UserObj { user: UserContribution, total: TotalSP }
 
 @Component({
   selector: 'coy-contribution-details',
@@ -13,9 +15,9 @@ import { TotalSP } from 'src/app/model/money.interface';
 export class ContributionDetailsComponent implements OnInit {
 
   users: User[] = [];
-  totalSP: TotalSP | null = null;
-  user: UserContribution | null = null;
-  selectedId = 0;
+  totalSP!: TotalSP;
+  user!: UserContribution;
+  isLoading = true;
 
   constructor(
     private usersService: UsersService,
@@ -26,18 +28,20 @@ export class ContributionDetailsComponent implements OnInit {
     //Request list of users from server
     this.usersService.getAll().subscribe(users => this.users = users);
 
-    this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        this.selectedId = parseInt(params.get('id')!, 10);
-        return this.usersService.getPlayerTotal(this.selectedId);
-      })
-    ).subscribe(totalSP => this.totalSP = totalSP);
-
-    this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        this.selectedId = parseInt(params.get('id')!, 10);
-        return this.usersService.getUser(this.selectedId);
-      })
-    ).subscribe(user => this.user = user);
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap): Observable<UserObj> => {
+          const selectedId = parseInt(params.get('id')!, 10);
+          return combineLatest({
+            total: this.usersService.getPlayerTotal(selectedId),
+            user: this.usersService.getUser(selectedId)
+          });
+        })
+      )
+      .subscribe(el => {
+        this.totalSP = el.total;
+        this.user = el.user;
+        this.isLoading = false;
+      });
   }
 }

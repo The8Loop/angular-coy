@@ -3,13 +3,13 @@
   <div class="transaction-list">
     <div class="row" *ngFor="let contribution of user.contributions">
       <div class="column contributionType">{{contribution.contributionType}}</div>
-      <div class="column date">{{contribution.date}}</div>
+      <div class="column date">{{contribution.date | date : "mediumDate" }}</div>
       <div class="column contribution" [ngStyle]="{'background-color': ColorCodeCell(contribution.contributionTypeId)}">
-        {{contribution.contribution.toLocaleString("en-US")}}</div>
+        {{contribution.contribution | number }}</div>
     </div>
   </div>
   <h3 *ngIf="totalSP" [ngStyle]="{'color': ColorCodeTotal(totalSP.total)}">Player Total:
-    {{totalSP.total.toLocaleString("en-US")}}
+    {{totalSP.total | number}}
   </h3>
 </div>
 <ng-template #elseBlock>
