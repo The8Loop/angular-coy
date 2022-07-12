@@ -5,6 +5,8 @@ import { ContributionMainComponent } from './pages/contribution-main/contributio
 import { CreateComponent } from './pages/create/create.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ListComponent } from './pages/list/list.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -12,7 +14,9 @@ const routes: Routes = [
   { path: 'list', component: ListComponent },
   { path: 'create', component: CreateComponent },
   { path: 'contribution', component: ContributionMainComponent },
-  { path: 'contribution/:id', component: ContributionDetailsComponent }
+  { path: 'contribution/:id', component: ContributionDetailsComponent },
+  { path: 'login', component: LoginComponent },
+  { path: '8008135', component: SignupComponent }
 ];
 
 @NgModule({

@@ -1,0 +1,26 @@
+.component-page {
+    margin: 50px;
+}
+
+.input {
+    display: block;
+    border: none;
+    appearance: none;
+    background: #212121;
+    width: 250px;
+    font-size: x-large;
+    color: white;
+    margin: 10px;
+    border-bottom: solid;
+    &:focus {
+        appearance: none;
+        outline: 0;
+        -webkit-appearance: none;
+        -ms-appearance: none;
+        -moz-appearance: none;
+    }
+}
+
+.password-typo-text {
+    color: red;
+}

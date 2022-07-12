@@ -15,6 +15,8 @@ import { ContributionMainComponent } from './pages/contribution-main/contributio
 import { ContributionDetailsComponent } from './pages/contribution-details/contribution-details.component';
 import { PlayerListComponent } from './shared/player-list/player-list.component';
 import { PlayerStatementComponent } from './shared/player-statement/player-statement.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { PlayerStatementComponent } from './shared/player-statement/player-state
     ContributionMainComponent,
     ContributionDetailsComponent,
     PlayerListComponent,
-    PlayerStatementComponent
+    PlayerStatementComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
