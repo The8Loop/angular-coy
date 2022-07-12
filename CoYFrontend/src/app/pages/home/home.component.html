@@ -34,17 +34,17 @@
     <a href={{topic.url}}>
       <img src={{topic.image}}>
     </a><br>
-    {{topic.time}}
+    {{topic.time | date : 'MMMM d, y, HH:mm z'}}
     <p>{{topic.description}}</p>
   </div>
 </div>
 
-<div class="section">
-  <div class="maintenance-info" *ngIf="lodestoneMaintenance.companion[0]; else elseBlock">
-    <a href={{lodestoneMaintenance.companion[0].url}}>{{lodestoneMaintenance.companion[0].title}}</a><br>
-    Start Time: {{lodestoneMaintenance.companion[0].start}}<br>
-    End Time: {{lodestoneMaintenance.companion[0].end}}<br>
-    Currently Ongoing: {{lodestoneMaintenance.companion[0].current}}
+<div class="section" *ngIf="!isLoadingMaintenance">
+  <div class="maintenance-info" *ngIf="lodestoneMaintenance.game[0]; else elseBlock">
+    <a href={{lodestoneMaintenance.game[0].url}}>{{lodestoneMaintenance.game[0].title}}</a><br>
+    Start Time: {{lodestoneMaintenance.game[0].start | date : 'MMMM d, y, HH:mm z'}}<br>
+    End Time: {{lodestoneMaintenance.game[0].end | date : 'MMMM d, y, HH:mm z'}}<br>
+    Currently Ongoing: {{lodestoneMaintenance.game[0].current}}
   </div>
   <ng-template #elseBlock>No Ongoing Maintenance</ng-template>
 </div>

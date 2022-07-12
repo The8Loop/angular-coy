@@ -11,10 +11,8 @@ import { LodestoneService } from 'src/app/services/lodestone.service';
 export class HomeComponent implements OnInit {
 
   lodestoneTopics: LodestoneTopic[] = [];
-
-  lodestoneMaintenance: LodestoneMaintenance = {
-    companion: []
-  };
+  lodestoneMaintenance!: LodestoneMaintenance;
+  isLoadingMaintenance = true;
 
   constructor(private lodestoneService: LodestoneService) { }
 
@@ -22,17 +20,14 @@ export class HomeComponent implements OnInit {
     this.lodestoneService.getTopics().pipe(
       map(e => {
         e = e.splice(0, 3);
-        e.forEach(e => e.time = (new Date(e.time)).toString());
         return e;
       }))
       .subscribe(lodestoneTopics => this.lodestoneTopics = lodestoneTopics);
 
-    this.lodestoneService.getMaintenance().pipe(
-      map(e => {
-        e.companion[0].start = new Date(e.companion[0].start).toString();
-        e.companion[0].end = new Date(e.companion[0].end).toString();
-        return e;
-      })
-    ).subscribe(lodestoneMaintenance => this.lodestoneMaintenance = lodestoneMaintenance);
+    this.lodestoneService.getMaintenance()
+      .subscribe(lodestoneMaintenance => {
+        this.lodestoneMaintenance = lodestoneMaintenance,
+          this.isLoadingMaintenance = false
+      });
   }
 }

@@ -5,7 +5,7 @@ export interface LodestoneTopic {
     description: string;
 }
 
-export interface Companion {
+export interface Response {
     url: string;
     title: string;
     start: string;
@@ -14,5 +14,6 @@ export interface Companion {
 }
 
 export interface LodestoneMaintenance {
-    companion: Companion[];
+    companion: Response[];
+    game: Response[];
 }
