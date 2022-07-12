@@ -1,0 +1,12 @@
+<div class="component-page">
+  <h1>Sign Up</h1>
+  <div class="log-in-content">
+    <input class="input" id="username" type="text" [formControl]="usernameFormControl" placeholder="Username">
+    <input class="input" id="password" type="password" [formControl]="passwordFormControl" placeholder="Password">
+    <input class="input" id="password" type="password" [formControl]="confirmFormControl" placeholder="Confirm Password"
+      (blur)="onInput()">
+  </div>
+  <div class="password-typo-text" *ngIf="passwordTypo === true">
+    Password does not match confirmation. Please retype your password.
+  </div>
+</div>
