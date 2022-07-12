@@ -1,0 +1,10 @@
+<div class="component-page">
+  <h1>Log In</h1>
+  <div class="log-in-content">
+    <input class="input" id="username" type="text" [formControl]="usernameFormControl" placeholder="Username">
+    <input class="input" id="password" type="password" [formControl]="passwordFormControl" placeholder="Password">
+  </div>
+  <div class="invalid-password-text" *ngIf="loginFailed === true">
+    Invalid Password or Username
+  </div>
+</div>
