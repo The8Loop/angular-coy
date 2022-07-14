@@ -30,6 +30,12 @@ namespace CoYBackend.Models
       .HasForeignKey(m => m.ContributionTypeId)
       .HasPrincipalKey(u => u.Id);
 
+      modelBuilder.Entity<User>()
+      .HasOne(u => u.Algorithm)
+      .WithMany(a => a.Users)
+      .HasForeignKey(u => u.AlgorithmId)
+      .HasPrincipalKey(a => a.Id);
+
       modelBuilder.Entity<TotalSP>().HasNoKey();
       modelBuilder.Entity<Leaderboard>().HasNoKey();
     }

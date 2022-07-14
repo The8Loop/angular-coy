@@ -12,8 +12,9 @@ namespace CoYBackend.Services
     Task Post(User user);
     Task Post(Money money);
     Task Put(int Id, UserDTO userDTO, User user);
-    public IEnumerable<TotalSP> GetPlayerTotal(int Id);
-    public IEnumerable<Leaderboard> GetLeaderboard();
+    IEnumerable<TotalSP> GetPlayerTotal(int Id);
+    IEnumerable<Leaderboard> GetLeaderboard();
+    Task<User> GetUserLogin(string name);
   }
 
   public class UserRepo : IUserRepo
@@ -73,6 +74,11 @@ namespace CoYBackend.Services
     public IEnumerable<Leaderboard> GetLeaderboard()
     {
       return _context.Set<Leaderboard>().FromSqlRaw($"CALL Leaderboard();").ToList();
+    }
+
+    public async Task<User> GetUserLogin(string name)
+    {
+      return await _context.users.FirstOrDefaultAsync(i => i.Name == name);
     }
   }
 }

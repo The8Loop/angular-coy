@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using CoYBackend.Models;
 using CoYBackend.Services;
+using System.Security.Cryptography;
+using System.Text;
+using System;
 
 namespace CoYBackend.Controllers
 {
@@ -46,10 +49,31 @@ namespace CoYBackend.Controllers
       return _toDTO.ToUserContDTO(user);
     }
 
+    // [HttpPost]
+    // public async Task<ActionResult<User>> Post(UserDTO userDTO)
+    // {
+    //   var user = _fromDTO.FromUserDTO(userDTO);
+    //   await _userRepo.Post(user);
+    //   return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
+    // }
+
     [HttpPost]
-    public async Task<ActionResult<User>> Post(UserDTO userDTO)
+    public async Task<ActionResult<User>> Post(UserSignupDTO userSignupDTO)
     {
-      var user = _fromDTO.FromUserDTO(userDTO);
+      const int SALT_SIZE = 24; // size in bytes
+      const int HASH_SIZE = 24; // size in bytes
+      const int ITERATIONS = 100000; // number of pbkdf2 iterations
+
+      // Generate a salt
+      var provider = RandomNumberGenerator.Create();
+      byte[] salt = new byte[SALT_SIZE];
+      provider.GetBytes(salt);
+
+      // Generate the hash
+      Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(userSignupDTO.Password, salt, ITERATIONS);
+
+      userSignupDTO.Password = Convert.ToHexString(pbkdf2.GetBytes(HASH_SIZE));
+      var user = _fromDTO.FromUserDTO(userSignupDTO, Convert.ToHexString(salt));
       await _userRepo.Post(user);
       return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
     }
@@ -117,6 +141,25 @@ namespace CoYBackend.Controllers
         return NotFound();
       }
       return output.ToList();
+    }
+
+
+    [HttpGet("Login/{name}")]
+    public async Task<ActionResult<Boolean>> GetUserLogin(string name, string password)
+    {
+      User user = await _userRepo.GetUserLogin(name);
+
+      const int HASH_SIZE = 24; // size in bytes
+      const int ITERATIONS = 100000; // number of pbkdf2 iterations
+
+      //Get salt in byte[]
+      byte[] salt = Convert.FromHexString(user.Salt);
+
+      // Generate the hash
+      Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt, ITERATIONS);
+      password = Convert.ToHexString(pbkdf2.GetBytes(HASH_SIZE));
+
+      return (user.Password == password);
     }
   }
 }
