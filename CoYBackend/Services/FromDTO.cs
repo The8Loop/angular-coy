@@ -8,12 +8,12 @@ namespace CoYBackend.Services
     {
       var user = new User()
       {
-        Id = u.Id,
+        Id = 0,
         Name = u.Name,
-        IsActive = u.IsActive,
+        IsActive = true,
         Password = u.Password,
         Salt = salt,
-        AlgorithmId = u.AlgorithmId
+        AlgorithmId = 1
       };
       return user;
     }

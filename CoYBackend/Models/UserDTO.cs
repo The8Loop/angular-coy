@@ -16,10 +16,7 @@ namespace CoYBackend.Models
 
   public class UserSignupDTO
   {
-    public int Id { get; set; }
     public string Name { get; set; }
-    public bool IsActive { get; set; }
     public string Password { get; set; }
-    public byte AlgorithmId { get; set; }
   }
 }

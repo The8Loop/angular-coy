@@ -74,7 +74,14 @@ namespace CoYBackend.Controllers
 
       userSignupDTO.Password = Convert.ToHexString(pbkdf2.GetBytes(HASH_SIZE));
       var user = _fromDTO.FromUserDTO(userSignupDTO, Convert.ToHexString(salt));
-      await _userRepo.Post(user);
+      try
+      {
+        await _userRepo.Post(user);
+      }
+      catch
+      {
+        return StatusCode(409);
+      }
       return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
     }
 
@@ -144,10 +151,14 @@ namespace CoYBackend.Controllers
     }
 
 
-    [HttpGet("Login/{name}")]
-    public async Task<ActionResult<Boolean>> GetUserLogin(string name, string password)
+    [HttpPost("Login")]
+    public async Task<ActionResult<Boolean>> GetUserLogin(UserSignupDTO userLogin)
     {
-      User user = await _userRepo.GetUserLogin(name);
+      User user = await _userRepo.GetUserLogin(userLogin.Name);
+      if (user == null)
+      {
+        return false;
+      }
 
       const int HASH_SIZE = 24; // size in bytes
       const int ITERATIONS = 100000; // number of pbkdf2 iterations
@@ -156,10 +167,10 @@ namespace CoYBackend.Controllers
       byte[] salt = Convert.FromHexString(user.Salt);
 
       // Generate the hash
-      Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt, ITERATIONS);
-      password = Convert.ToHexString(pbkdf2.GetBytes(HASH_SIZE));
+      Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(userLogin.Password, salt, ITERATIONS);
+      userLogin.Password = Convert.ToHexString(pbkdf2.GetBytes(HASH_SIZE));
 
-      return (user.Password == password);
+      return (user.Password == userLogin.Password);
     }
   }
 }

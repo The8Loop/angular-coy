@@ -4,9 +4,12 @@
     <input class="input" id="username" type="text" [formControl]="usernameFormControl" placeholder="Username">
     <input class="input" id="password" type="password" [formControl]="passwordFormControl" placeholder="Password">
     <input class="input" id="password" type="password" [formControl]="confirmFormControl" placeholder="Confirm Password"
-      (blur)="onInput()">
+      (keyup.enter)="onInput()">
   </div>
-  <div class="password-typo-text" *ngIf="passwordTypo === true">
+  <div class="error-text" *ngIf="passwordTypo === true">
     Password does not match confirmation. Please retype your password.
+  </div>
+  <div class="error-text" *ngIf="userExists === true">
+    Username already taken.
   </div>
 </div>

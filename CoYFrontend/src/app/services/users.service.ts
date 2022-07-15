@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Leaderboard, User, UserContribution } from '../model/user.interface';
+import { Leaderboard, User, UserContribution, UserLogin } from '../model/user.interface';
 import { MoneyDTO, TotalSP } from '../model/money.interface';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpResponse, HttpEvent, HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UsersService implements HttpInterceptor {
 
   constructor(private http: HttpClient) { }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler):
+    Observable<HttpEvent<any>> {
+    console.log("Intercepted")
+    return next.handle(req);
+  }
 
   /**
    * api/User Get request that retrieves a list of all users (id and names).
@@ -35,6 +41,10 @@ export class UsersService {
    */
   getMoney(): Observable<UserContribution[]> {
     return this.http.get<UserContribution[]>(`${environment.apiUrl}/User/Money`);
+  }
+
+  addUser(userLogin: UserLogin): Observable<HttpResponse<any>> {
+    return this.http.post<any>(`${environment.apiUrl}/User`, userLogin, { observe: 'response' });
   }
 
   /**
@@ -69,5 +79,9 @@ export class UsersService {
    */
   getLeaderboard(): Observable<Leaderboard[]> {
     return this.http.get<Leaderboard[]>(`${environment.apiUrl}/User/Leaderboard`);
+  }
+
+  getUserLogin(userLogin: UserLogin): Observable<boolean> {
+    return this.http.post<boolean>(`${environment.apiUrl}/User/Login`, userLogin);
   }
 }

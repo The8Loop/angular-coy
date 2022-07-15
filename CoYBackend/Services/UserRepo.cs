@@ -43,6 +43,10 @@ namespace CoYBackend.Services
 
     public async Task Post(User user)
     {
+      if (await _context.users.FirstOrDefaultAsync(i => i.Name == user.Name) != null)
+      {
+        throw new Exception("Username already exists");
+      }
       _context.users.Add(user);
       await _context.SaveChangesAsync();
     }
