@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserLogin } from 'src/app/model/user.interface';
+import { LoginService } from 'src/app/services/login.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class LoginComponent {
   loginCheck = false;
   displayError = false;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, public loginService: LoginService) { }
 
   onInput(): void {
     if (this.passwordFormControl.value != "") {
@@ -26,8 +27,9 @@ export class LoginComponent {
       }
 
       this.usersService.getUserLogin(userLogin)
-        .subscribe(o => {
-          this.loginCheck = o;
+        .subscribe(loginCheck => {
+          this.loginCheck = loginCheck;
+          this.loginService.loggedIn = this.loginCheck;
           this.displayError = !this.loginCheck;
           console.log(this.loginCheck);
         });
