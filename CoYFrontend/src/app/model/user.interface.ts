@@ -20,3 +20,8 @@ export interface Leaderboard {
     name: string;
     total: number;
 }
+
+export interface SessionDTO {
+    sessionString: string;
+    userId: number;
+}

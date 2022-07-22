@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { catchError, map, throwError } from 'rxjs';
 import { UserLogin } from 'src/app/model/user.interface';
 import { LoginService } from 'src/app/services/login.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -14,12 +15,12 @@ export class LoginComponent {
   usernameFormControl = new FormControl("");
   passwordFormControl = new FormControl("");
 
-  loginCheck = false;
+  sessionIdentier = "";
   displayError = false;
 
   constructor(private usersService: UsersService, public loginService: LoginService) { }
 
-  onInput(): void {
+  onInput() {
     if (this.passwordFormControl.value != "") {
       const userLogin: UserLogin = {
         name: this.usernameFormControl.value,
@@ -27,11 +28,18 @@ export class LoginComponent {
       }
 
       this.usersService.getUserLogin(userLogin)
-        .subscribe(loginCheck => {
-          this.loginCheck = loginCheck;
-          this.loginService.loggedIn = this.loginCheck;
-          this.displayError = !this.loginCheck;
-          console.log(this.loginCheck);
+        .pipe(
+          catchError(error => {
+            if (error.status === 401) {
+              this.displayError = true;
+            }
+            return throwError(() => new Error('Invalid Login'));
+          })
+        )
+        .subscribe(session => {
+          this.loginService.createSession(session.sessionString);
+          this.loginService.loggedIn = true;
+          this.displayError = false;
         });
     }
     else {

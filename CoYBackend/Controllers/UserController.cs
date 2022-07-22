@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using CoYBackend.Models;
 using CoYBackend.Services;
 using System.Security.Cryptography;
-using System.Text;
-using System;
 
 namespace CoYBackend.Controllers
 {
@@ -14,12 +12,14 @@ namespace CoYBackend.Controllers
     private readonly ToDTO _toDTO;
     private readonly FromDTO _fromDTO;
     private readonly IUserRepo _userRepo;
+    private readonly ISessionRepo _sessionRepo;
 
-    public UserController(IUserRepo UserRepo)
+    public UserController(IUserRepo UserRepo, ISessionRepo SessionRepo)
     {
       _userRepo = UserRepo;
       _toDTO = new ToDTO();
       _fromDTO = new FromDTO();
+      _sessionRepo = SessionRepo;
     }
 
     [HttpGet]
@@ -48,14 +48,6 @@ namespace CoYBackend.Controllers
       }
       return _toDTO.ToUserContDTO(user);
     }
-
-    // [HttpPost]
-    // public async Task<ActionResult<User>> Post(UserDTO userDTO)
-    // {
-    //   var user = _fromDTO.FromUserDTO(userDTO);
-    //   await _userRepo.Post(user);
-    //   return CreatedAtAction(nameof(Get), new { Id = user.Id }, user);
-    // }
 
     [HttpPost]
     public async Task<ActionResult<User>> Post(UserSignupDTO userSignupDTO)
@@ -152,12 +144,12 @@ namespace CoYBackend.Controllers
 
 
     [HttpPost("Login")]
-    public async Task<ActionResult<Boolean>> GetUserLogin(UserSignupDTO userLogin)
+    public async Task<ActionResult<SessionDTO>> GetUserLogin(UserSignupDTO userLogin)
     {
       User user = await _userRepo.GetUserLogin(userLogin.Name);
       if (user == null)
       {
-        return false;
+        return StatusCode(401);
       }
 
       const int HASH_SIZE = 24; // size in bytes
@@ -170,7 +162,48 @@ namespace CoYBackend.Controllers
       Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(userLogin.Password, salt, ITERATIONS);
       userLogin.Password = Convert.ToHexString(pbkdf2.GetBytes(HASH_SIZE));
 
-      return (user.Password == userLogin.Password);
+      if (user.Password != userLogin.Password)
+      {
+        return StatusCode(401);
+      }
+
+      // Generate a salt
+      const int SALT_SIZE = 24; // size in bytes
+      var provider = RandomNumberGenerator.Create();
+      byte[] sessionString = new byte[SALT_SIZE];
+      provider.GetBytes(sessionString);
+
+      Random rand = new Random();
+      Session session = new Session()
+      {
+        UserId = user.Id,
+        SessionString = Convert.ToHexString(sessionString),
+        Creation = DateTime.Now
+      };
+      await _sessionRepo.Post(session);
+      SessionDTO sessionDTO = _toDTO.ToSessionDTO(session);
+      return CreatedAtAction(nameof(GetSession), new { sessionIdentifier = session.SessionString }, sessionDTO);
+    }
+
+    [HttpDelete("Logout")]
+    public async Task<IActionResult> Logout()
+    {
+      Request.Headers.TryGetValue("Session-Identifier", out var headerValue);
+      var session = await _sessionRepo.Get(headerValue);
+      if (session == null)
+      {
+        return NotFound();
+      }
+      await _sessionRepo.Delete(session.UserId);
+      return NoContent();
+    }
+
+    [HttpGet("Session/{sessionIdentifier}")]
+    public async Task<ActionResult<SessionDTO>> GetSession(string sessionIdentifier)
+    {
+      Session session = await _sessionRepo.Get(sessionIdentifier);
+      SessionDTO sessionDTO = _toDTO.ToSessionDTO(session);
+      return sessionDTO;
     }
   }
 }

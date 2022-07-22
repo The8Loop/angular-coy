@@ -12,6 +12,7 @@ namespace CoYBackend.Models
     public DbSet<User> users { get; set; } = null!;
     public DbSet<Money> money { get; set; } = null!;
     public DbSet<Contribution_Type> contribution_type { get; set; } = null!;
+    public DbSet<Session> sessions { get; set; } = null!;
     public DbSet<TotalSP> totalSPDbSet { get; set; }
 
     public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade yggdrasil { get; }
@@ -35,6 +36,11 @@ namespace CoYBackend.Models
       .WithMany(a => a.Users)
       .HasForeignKey(u => u.AlgorithmId)
       .HasPrincipalKey(a => a.Id);
+
+      modelBuilder.Entity<Session>()
+      .HasOne(s => s.User)
+      .WithOne(u => u.Session)
+      .HasForeignKey<Session>(s => s.UserId);
 
       modelBuilder.Entity<TotalSP>().HasNoKey();
       modelBuilder.Entity<Leaderboard>().HasNoKey();

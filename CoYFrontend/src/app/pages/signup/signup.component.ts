@@ -39,7 +39,10 @@ export class SignupComponent {
               return throwError(() => new Error('Something bad happened.'));
             })
           )
-          .subscribe(response => this.userExists = false);
+          .subscribe(response => {
+            console.log(response);
+            this.userExists = false;
+          });
       }
     }
   }

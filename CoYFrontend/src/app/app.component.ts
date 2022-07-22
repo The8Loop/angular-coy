@@ -13,6 +13,6 @@ export class AppComponent {
   constructor(public loginService: LoginService) { }
 
   logOut() {
-    this.loginService.loggedIn = false;
+    this.loginService.deleteSession();
   }
 }

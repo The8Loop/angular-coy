@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Leaderboard, User, UserContribution, UserLogin } from '../model/user.interface';
+import { Leaderboard, SessionDTO, User, UserContribution, UserLogin } from '../model/user.interface';
 import { MoneyDTO, TotalSP } from '../model/money.interface';
 import { HttpClient, HttpErrorResponse, HttpResponse, HttpEvent, HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
@@ -43,8 +43,8 @@ export class UsersService implements HttpInterceptor {
     return this.http.get<UserContribution[]>(`${environment.apiUrl}/User/Money`);
   }
 
-  addUser(userLogin: UserLogin): Observable<HttpResponse<any>> {
-    return this.http.post<any>(`${environment.apiUrl}/User`, userLogin, { observe: 'response' });
+  addUser(userLogin: UserLogin): Observable<User> {
+    return this.http.post<User>(`${environment.apiUrl}/User`, userLogin);
   }
 
   /**
@@ -81,7 +81,7 @@ export class UsersService implements HttpInterceptor {
     return this.http.get<Leaderboard[]>(`${environment.apiUrl}/User/Leaderboard`);
   }
 
-  getUserLogin(userLogin: UserLogin): Observable<boolean> {
-    return this.http.post<boolean>(`${environment.apiUrl}/User/Login`, userLogin);
+  getUserLogin(userLogin: UserLogin): Observable<SessionDTO> {
+    return this.http.post<SessionDTO>(`${environment.apiUrl}/User/Login`, userLogin);
   }
 }

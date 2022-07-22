@@ -12,6 +12,7 @@ namespace CoYBackend.Models
     //Navigation Property
     public List<Money> Contributions { get; set; }
     public Algorithm Algorithm { get; set; }
+    public Session Session { get; set; }
   }
 
   public class Leaderboard
