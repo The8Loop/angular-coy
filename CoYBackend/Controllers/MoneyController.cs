@@ -81,5 +81,12 @@ namespace CoYBackend.Controllers
       var output = _moneyRepo.GetCompanyTotal();
       return output.ElementAt(0);
     }
+
+    [HttpGet("ContributionType")]
+    public async Task<ActionResult<IEnumerable<ContributionTypeDTO>>> GetAllContributionTypes()
+    {
+      var contributionTypeList = await _moneyRepo.GetAllContributionTypes();
+      return contributionTypeList.Select(c => _toDTO.ToContributionTypeDTO(c)).ToList();
+    }
   }
 }

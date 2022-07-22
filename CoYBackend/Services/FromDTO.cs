@@ -30,5 +30,18 @@ namespace CoYBackend.Services
       };
       return money;
     }
+
+    public Money FromMoneyPostDTO(MoneyPostDTO m)
+    {
+      var money = new Money
+      {
+        Id = 0,
+        Contribution = m.Contribution,
+        Date = DateTime.Now,
+        ContributionTypeId = m.ContributionTypeId,
+        UserId = m.UserId
+      };
+      return money;
+    }
   }
 }

@@ -78,13 +78,13 @@ namespace CoYBackend.Controllers
     }
 
     [HttpPost("Money")]
-    public async Task<ActionResult<Money>> Post(MoneyDTO moneyDTO)
+    public async Task<ActionResult<MoneyDTO>> Post(MoneyPostDTO moneyPostDTO)
     {
-      if (moneyDTO.Contribution == 0 || moneyDTO.UserId == 0 || moneyDTO.ContributionTypeId < 1 || moneyDTO.ContributionTypeId > 4)
+      if (moneyPostDTO.Contribution == 0 || moneyPostDTO.UserId == 0 || moneyPostDTO.ContributionTypeId < 1 || moneyPostDTO.ContributionTypeId > 4)
       {
         return BadRequest();
       }
-      var money = _fromDTO.FromMoneyDTO(moneyDTO);
+      var money = _fromDTO.FromMoneyPostDTO(moneyPostDTO);
       await _userRepo.Post(money);
       return CreatedAtAction(nameof(MoneyController.GetMoney), "Money", new { id = money.Id }, money);
     }

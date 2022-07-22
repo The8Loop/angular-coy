@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Leaderboard, SessionDTO, User, UserContribution, UserLogin } from '../model/user.interface';
-import { MoneyDTO, TotalSP } from '../model/money.interface';
+import { ContributionTypeDTO, MoneyDTO, MoneyPostDTO, TotalSP } from '../model/money.interface';
 import { HttpClient, HttpErrorResponse, HttpResponse, HttpEvent, HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -52,8 +52,8 @@ export class UsersService implements HttpInterceptor {
    * @param moneyDTO 
    * @returns An observable of MoneyDTO
    */
-  addMoneyForUser(moneyDTO: MoneyDTO): Observable<MoneyDTO> {
-    return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyDTO);
+  addMoneyForUser(moneyPostDTO: MoneyPostDTO): Observable<MoneyDTO> {
+    return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyPostDTO);
   }
 
   /**
@@ -83,5 +83,9 @@ export class UsersService implements HttpInterceptor {
 
   getUserLogin(userLogin: UserLogin): Observable<SessionDTO> {
     return this.http.post<SessionDTO>(`${environment.apiUrl}/User/Login`, userLogin);
+  }
+
+  getAllContributionTypes(): Observable<ContributionTypeDTO[]> {
+    return this.http.get<ContributionTypeDTO[]>(`${environment.apiUrl}/Money/ContributionType`);
   }
 }

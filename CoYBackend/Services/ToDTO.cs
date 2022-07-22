@@ -48,5 +48,15 @@ namespace CoYBackend.Services
       };
       return sessionDTO;
     }
+
+    public ContributionTypeDTO ToContributionTypeDTO(Contribution_Type c)
+    {
+      var contributionTypeDTO = new ContributionTypeDTO()
+      {
+        Id = c.Id,
+        ContributionType = c.ContributionType
+      };
+      return contributionTypeDTO;
+    }
   }
 }

@@ -1,0 +1,33 @@
+<div class="dropdown">
+  <button class="dropbtn">{{userDropdownDisplay}}</button>
+  <div class="dropdown-content">
+    <a *ngFor="let user of userList" (click)="clickEventUDD(user)">{{user.name}}</a>
+  </div>
+</div>
+
+<div class="dropdown">
+  <button class="dropbtn">{{contributionTypeDropdownDisplay}}</button>
+  <div class="dropdown-content">
+    <a *ngFor="let contributionType of contributionTypeList"
+      (click)="clickEventCTDD(contributionType)">{{contributionType.contributionType}}</a>
+  </div>
+</div>
+
+<div class="input-int">
+  <label>Contribution: </label>
+  <input id="contribution" type="number" [formControl]="contribution">
+
+  <button class="savebtn"
+    [disabled]="!contribution.valid || contribution.value === 0 || moneyPostDTO.userId === 0 || moneyPostDTO.contributionTypeId === 0"
+    (click)="clickEventSave(contribution.value)">Save</button>
+</div>
+
+<div class="error">
+  <div *ngIf="contribution.errors?.['invalidInt']">
+    Please input a whole number without letters.
+  </div>
+
+  <div *ngIf="contribution.errors?.['decimalDetected']">
+    Please do not enter decimals.
+  </div>
+</div>
