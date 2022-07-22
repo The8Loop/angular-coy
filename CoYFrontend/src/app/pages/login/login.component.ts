@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { catchError, map, throwError } from 'rxjs';
 import { UserLogin } from 'src/app/model/user.interface';
 import { LoginService } from 'src/app/services/login.service';
@@ -18,7 +19,7 @@ export class LoginComponent {
   sessionIdentier = "";
   displayError = false;
 
-  constructor(private usersService: UsersService, public loginService: LoginService) { }
+  constructor(private usersService: UsersService, private router: Router, public loginService: LoginService) { }
 
   onInput() {
     if (this.passwordFormControl.value != "") {
@@ -40,6 +41,7 @@ export class LoginComponent {
           this.loginService.createSession(session.sessionString);
           this.loginService.loggedIn = true;
           this.displayError = false;
+          this.router.navigate(['']);
         });
     }
     else {

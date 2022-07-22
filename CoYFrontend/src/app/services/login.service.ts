@@ -25,7 +25,6 @@ export class LoginService {
       this.userLogout(session);
       sessionStorage.clear();
     }
-
   }
 
   userLogout(sessionIdentfier: string) {
