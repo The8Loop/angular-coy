@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Leaderboard, SessionDTO, User, UserContribution, UserLogin } from '../model/user.interface';
 import { ContributionTypeDTO, MoneyDTO, MoneyPostDTO, TotalSP } from '../model/money.interface';
-import { HttpClient, HttpErrorResponse, HttpResponse, HttpEvent, HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse, HttpEvent, HttpInterceptor, HttpRequest, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -52,8 +52,9 @@ export class UsersService implements HttpInterceptor {
    * @param moneyDTO 
    * @returns An observable of MoneyDTO
    */
-  addMoneyForUser(moneyPostDTO: MoneyPostDTO): Observable<MoneyDTO> {
-    return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyPostDTO);
+  addMoneyForUser(moneyPostDTO: MoneyPostDTO, sessionIdentifier: string): Observable<MoneyDTO> {
+    const header = new HttpHeaders().set("Session-Identifier", sessionIdentifier);
+    return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyPostDTO, { 'headers': header });
   }
 
   /**

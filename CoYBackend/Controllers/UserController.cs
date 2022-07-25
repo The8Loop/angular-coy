@@ -80,6 +80,12 @@ namespace CoYBackend.Controllers
     [HttpPost("Money")]
     public async Task<ActionResult<MoneyDTO>> Post(MoneyPostDTO moneyPostDTO)
     {
+      Request.Headers.TryGetValue("Session-Identifier", out var headerValue);
+      var session = await _sessionRepo.Get(headerValue);
+      if (session == null)
+      {
+        return StatusCode(403);
+      }
       if (moneyPostDTO.Contribution == 0 || moneyPostDTO.UserId == 0 || moneyPostDTO.ContributionTypeId < 1 || moneyPostDTO.ContributionTypeId > 4)
       {
         return BadRequest();

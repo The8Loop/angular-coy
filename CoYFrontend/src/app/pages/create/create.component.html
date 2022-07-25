@@ -2,4 +2,5 @@
   <h2>Free Company Gil Entry</h2>
   <coy-contribution-form [contributionTypeList]="contributionTypeList" [userList]="userList"
     (moneyPostDTOEmitter)="onSave($event)"></coy-contribution-form>
+  <div class="error" *ngIf="displayError">Invalid Session</div>
 </div>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 import { ContributionTypeDTO, MoneyDTO, MoneyPostDTO } from 'src/app/model/money.interface';
 import { User } from 'src/app/model/user.interface';
+import { LoginService } from 'src/app/services/login.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -14,9 +17,10 @@ export class CreateComponent implements OnInit {
   user: User = { name: 'Choose Guild Member', id: 0 };
   contribution = 0;
   moneyPostDTO: MoneyPostDTO = { contribution: 0, userId: 0, contributionTypeId: 0 };
-  contributionTypeList: ContributionTypeDTO[] = []
+  contributionTypeList: ContributionTypeDTO[] = [];
+  displayError = false;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, private loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {
     //Request list of users from server
@@ -39,7 +43,22 @@ export class CreateComponent implements OnInit {
    * @param moneyPostDTO - Contribution of Guild Member from input field component
    */
   onSave(moneyPostDTO: MoneyPostDTO) {
+    const sessionIdentfier = this.loginService.getSession();
+    if (sessionIdentfier == null) {
+      return;
+    }
     this.moneyPostDTO = moneyPostDTO;
-    this.usersService.addMoneyForUser(this.moneyPostDTO).subscribe();
+    this.usersService.addMoneyForUser(this.moneyPostDTO, sessionIdentfier)
+      .pipe(
+        catchError(error => {
+          if (error.status == 403) {
+            this.displayError = true;
+          }
+          return throwError(() => new Error('Error'));
+        })
+      )
+      .subscribe(o => {
+        this.router.navigate(['/contribution']);
+      });
   }
 }
