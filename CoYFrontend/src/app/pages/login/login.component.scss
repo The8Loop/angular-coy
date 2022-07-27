@@ -24,3 +24,15 @@
 .invalid-password-text {
     color: red;
 }
+
+button {
+    font-size: 16pt;
+    background-color: #3e8e41;
+    margin-left: 20px;
+    padding: 5px;
+    color: white;
+    border: none;
+    &:hover {
+        cursor: pointer;
+    };
+}
