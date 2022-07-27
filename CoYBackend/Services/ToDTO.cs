@@ -38,5 +38,25 @@ namespace CoYBackend.Services
       };
       return moneyDTO;
     }
+
+    public SessionDTO ToSessionDTO(Session s)
+    {
+      var sessionDTO = new SessionDTO()
+      {
+        SessionString = s.SessionString,
+        UserId = s.UserId
+      };
+      return sessionDTO;
+    }
+
+    public ContributionTypeDTO ToContributionTypeDTO(Contribution_Type c)
+    {
+      var contributionTypeDTO = new ContributionTypeDTO()
+      {
+        Id = c.Id,
+        ContributionType = c.ContributionType
+      };
+      return contributionTypeDTO;
+    }
   }
 }

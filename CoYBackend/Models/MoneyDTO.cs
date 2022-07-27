@@ -11,4 +11,11 @@ namespace CoYBackend.Models
     public byte ContributionTypeId { get; set; }
     public int UserId { get; set; }
   }
+
+  public class MoneyPostDTO
+  {
+    public long Contribution { get; set; }
+    public int UserId { get; set; }
+    public byte ContributionTypeId { get; set; }
+  }
 }

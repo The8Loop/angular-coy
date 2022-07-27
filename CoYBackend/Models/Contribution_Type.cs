@@ -8,4 +8,10 @@ namespace CoYBackend.Models
     //Navigation Property
     public List<Money> Money { get; set; }
   }
+
+  public class ContributionTypeDTO
+  {
+    public byte Id { get; set; }
+    public string ContributionType { get; set; }
+  }
 }

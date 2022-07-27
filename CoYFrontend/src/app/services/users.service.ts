@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Leaderboard, User, UserContribution } from '../model/user.interface';
-import { MoneyDTO, TotalSP } from '../model/money.interface';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Leaderboard, SessionDTO, User, UserContribution, UserLogin } from '../model/user.interface';
+import { ContributionTypeDTO, MoneyDTO, MoneyPostDTO, TotalSP } from '../model/money.interface';
+import { HttpClient, HttpErrorResponse, HttpResponse, HttpEvent, HttpInterceptor, HttpRequest, HttpHandler, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UsersService implements HttpInterceptor {
 
   constructor(private http: HttpClient) { }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler):
+    Observable<HttpEvent<any>> {
+    console.log("Intercepted")
+    return next.handle(req);
+  }
 
   /**
    * api/User Get request that retrieves a list of all users (id and names).
@@ -37,13 +43,18 @@ export class UsersService {
     return this.http.get<UserContribution[]>(`${environment.apiUrl}/User/Money`);
   }
 
+  addUser(userLogin: UserLogin): Observable<User> {
+    return this.http.post<User>(`${environment.apiUrl}/User`, userLogin);
+  }
+
   /**
    * api/User/Money Post request of a user contribution
    * @param moneyDTO 
    * @returns An observable of MoneyDTO
    */
-  addMoneyForUser(moneyDTO: MoneyDTO): Observable<MoneyDTO> {
-    return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyDTO);
+  addMoneyForUser(moneyPostDTO: MoneyPostDTO, sessionIdentifier: string): Observable<MoneyDTO> {
+    const header = new HttpHeaders().set("Session-Identifier", sessionIdentifier);
+    return this.http.post<MoneyDTO>(`${environment.apiUrl}/User/Money`, moneyPostDTO, { 'headers': header });
   }
 
   /**
@@ -69,5 +80,13 @@ export class UsersService {
    */
   getLeaderboard(): Observable<Leaderboard[]> {
     return this.http.get<Leaderboard[]>(`${environment.apiUrl}/User/Leaderboard`);
+  }
+
+  getUserLogin(userLogin: UserLogin): Observable<SessionDTO> {
+    return this.http.post<SessionDTO>(`${environment.apiUrl}/User/Login`, userLogin);
+  }
+
+  getAllContributionTypes(): Observable<ContributionTypeDTO[]> {
+    return this.http.get<ContributionTypeDTO[]>(`${environment.apiUrl}/Money/ContributionType`);
   }
 }

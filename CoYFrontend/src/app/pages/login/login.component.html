@@ -1,10 +1,11 @@
-<div class="component-page">
+<div class="component-page" *ngIf="loginService.getSession() == null">
   <h1>Log In</h1>
   <div class="log-in-content">
     <input class="input" id="username" type="text" [formControl]="usernameFormControl" placeholder="Username">
-    <input class="input" id="password" type="password" [formControl]="passwordFormControl" placeholder="Password">
+    <input class="input" id="password" type="password" [formControl]="passwordFormControl" placeholder="Password"
+      (keyup.enter)="onInput()">
   </div>
-  <div class="invalid-password-text" *ngIf="loginFailed === true">
+  <div class="invalid-password-text" *ngIf="displayError === true">
     Invalid Password or Username
   </div>
 </div>

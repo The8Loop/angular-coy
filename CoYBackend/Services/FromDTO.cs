@@ -4,13 +4,16 @@ namespace CoYBackend.Services
 {
   public class FromDTO
   {
-    public User FromUserDTO(UserDTO u)
+    public User FromUserDTO(UserSignupDTO u, string salt)
     {
       var user = new User()
       {
-        Id = u.Id,
+        Id = 0,
         Name = u.Name,
-        IsActive = u.IsActive
+        IsActive = true,
+        Password = u.Password,
+        Salt = salt,
+        AlgorithmId = 1
       };
       return user;
     }
@@ -22,6 +25,19 @@ namespace CoYBackend.Services
         Id = m.Id,
         Contribution = m.Contribution,
         Date = m.Date,
+        ContributionTypeId = m.ContributionTypeId,
+        UserId = m.UserId
+      };
+      return money;
+    }
+
+    public Money FromMoneyPostDTO(MoneyPostDTO m)
+    {
+      var money = new Money
+      {
+        Id = 0,
+        Contribution = m.Contribution,
+        Date = DateTime.Now,
         ContributionTypeId = m.ContributionTypeId,
         UserId = m.UserId
       };

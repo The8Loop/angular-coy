@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { UserLogin } from 'src/app/model/user.interface';
+import { UsersService } from 'src/app/services/users.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'coy-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
+
   usernameFormControl = new FormControl("");
   passwordFormControl = new FormControl("");
   confirmFormControl = new FormControl("");
   passwordTypo = false;
+  userExists = false;
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  constructor(private usersService: UsersService) { }
 
   onInput() {
     if (this.confirmFormControl.value != "") {
@@ -24,9 +26,24 @@ export class SignupComponent implements OnInit {
       }
       else {
         this.passwordTypo = false;
+        const user: UserLogin = {
+          name: this.usernameFormControl.value,
+          password: this.passwordFormControl.value
+        }
+        this.usersService.addUser(user)
+          .pipe(
+            catchError(error => {
+              if (error.status === 409) {
+                this.userExists = true;
+              }
+              return throwError(() => new Error('Something bad happened.'));
+            })
+          )
+          .subscribe(response => {
+            console.log(response);
+            this.userExists = false;
+          });
       }
     }
   }
-
-
 }

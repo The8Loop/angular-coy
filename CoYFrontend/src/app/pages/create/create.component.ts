@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MoneyDTO } from 'src/app/model/money.interface';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { ContributionTypeDTO, MoneyDTO, MoneyPostDTO } from 'src/app/model/money.interface';
 import { User } from 'src/app/model/user.interface';
+import { LoginService } from 'src/app/services/login.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -10,16 +13,20 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class CreateComponent implements OnInit {
 
-  users: User[] = [];
+  userList: User[] = [];
   user: User = { name: 'Choose Guild Member', id: 0 };
   contribution = 0;
-  moneyDTO: MoneyDTO = { contribution: 0, userId: 0, contributionType: "", contributionTypeId: 0, date: new Date() };
+  moneyPostDTO: MoneyPostDTO = { contribution: 0, userId: 0, contributionTypeId: 0 };
+  contributionTypeList: ContributionTypeDTO[] = [];
+  displayError = false;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, private loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {
     //Request list of users from server
-    this.usersService.getAll().subscribe(users => this.users = users);
+    this.usersService.getAll().subscribe(users => this.userList = users);
+
+    this.usersService.getAllContributionTypes().subscribe(contributionTypes => this.contributionTypeList = contributionTypes)
   }
 
   /**
@@ -33,13 +40,25 @@ export class CreateComponent implements OnInit {
   /**
    * Sets property contribution to input from input field component
    * Sets values of moneyDTO and posts to the server
-   * @param userContribution - Contribution of Guild Member from input field component
+   * @param moneyPostDTO - Contribution of Guild Member from input field component
    */
-  onSave(userContribution: number): void {
-    this.contribution = userContribution;
-    this.moneyDTO = {
-      contribution: this.contribution, userId: this.user.id, date: new Date(), contributionType: "One", contributionTypeId: 1
-    };
-    this.usersService.addMoneyForUser(this.moneyDTO).subscribe(moneyDTO => moneyDTO = this.moneyDTO);
+  onSave(moneyPostDTO: MoneyPostDTO) {
+    const sessionIdentfier = this.loginService.getSession();
+    if (sessionIdentfier == null) {
+      return;
+    }
+    this.moneyPostDTO = moneyPostDTO;
+    this.usersService.addMoneyForUser(this.moneyPostDTO, sessionIdentfier)
+      .pipe(
+        catchError(error => {
+          if (error.status == 403) {
+            this.displayError = true;
+          }
+          return throwError(() => new Error('Error'));
+        })
+      )
+      .subscribe(o => {
+        this.router.navigate(['/contribution']);
+      });
   }
 }

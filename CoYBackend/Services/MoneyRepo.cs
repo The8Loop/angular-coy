@@ -10,6 +10,7 @@ namespace CoYBackend.Services
     Task<Money> GetMoney(int id, bool tracking = false);
     Task Put(int Id, Money money);
     IEnumerable<TotalSP> GetCompanyTotal();
+    Task<IEnumerable<Contribution_Type>> GetAllContributionTypes();
   }
 
   public class MoneyRepo : IMoneyRepo
@@ -49,6 +50,11 @@ namespace CoYBackend.Services
     public IEnumerable<TotalSP> GetCompanyTotal()
     {
       return _context.Set<TotalSP>().FromSqlRaw("CALL GetCompanyTotal();").ToList();
+    }
+
+    public async Task<IEnumerable<Contribution_Type>> GetAllContributionTypes()
+    {
+      return await _context.contribution_type.ToListAsync();
     }
   }
 }

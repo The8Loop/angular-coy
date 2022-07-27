@@ -13,4 +13,10 @@ namespace CoYBackend.Models
     public string Name { get; set; }
     public bool IsActive { get; set; }
   }
+
+  public class UserSignupDTO
+  {
+    public string Name { get; set; }
+    public string Password { get; set; }
+  }
 }
