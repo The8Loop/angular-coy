@@ -39,5 +39,5 @@ footer {
 }
 
 .page {
-    min-height: 600px;
+    min-height: calc(100vh - 148px);
 }
