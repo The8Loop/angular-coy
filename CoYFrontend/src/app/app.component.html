@@ -10,6 +10,7 @@
   <!-- <a class="flex-header-button" routerLink="/create">Enter Contribution</a> -->
   <a class="flex-header-button" routerLink="/contribution">Contributions</a>
   <a class="flex-header-button" routerLink="/login" *ngIf="loginService.getSession() === null">Log In</a>
+  <a class="flex-header-button" routerLink="/create" *ngIf="loginService.getSession() != null">Enter New Contrbution</a>
   <a class="flex-header-button" href="" *ngIf="loginService.getSession() != null" (click)="logOut()">Log
     Out</a>
 </div>

@@ -15,10 +15,11 @@ export class ContributionMainComponent implements OnInit {
   totalSP!: TotalSP;
   leaderboard: Leaderboard[] = [];
   isLoading = true;
+  milestone = 100000000;
 
   constructor(private usersService: UsersService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     combineLatest({
       users: this.usersService.getAll(),
       totalSP: this.usersService.getCompanyTotal(),
@@ -30,5 +31,10 @@ export class ContributionMainComponent implements OnInit {
         this.leaderboard = el.leaderboard;
         this.isLoading = false;
       })
+  }
+
+  getMilestonePercentage(): string {
+    const percent = this.totalSP.total / this.milestone * 100;
+    return `${percent.toString()}%`
   }
 }

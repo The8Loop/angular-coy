@@ -7,3 +7,17 @@
     margin: 50px;
     width: 100%;
 }
+
+.bar {
+    height: 400px;
+    width: 80px;
+    background-color: rgb(205, 57, 57);
+    transform: rotate(180deg);
+    border-radius: 10px;
+}
+
+.barfill {
+    width: 100%;
+    background-color: #3e8e41;
+    border-radius: 10px;
+}
