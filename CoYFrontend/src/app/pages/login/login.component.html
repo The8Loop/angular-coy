@@ -5,6 +5,7 @@
     <input class="input" id="password" type="password" [formControl]="passwordFormControl" placeholder="Password"
       (keyup.enter)="onInput()">
   </div>
+  <button (click)="onInput()">Log In</button>
   <div class="invalid-password-text" *ngIf="displayError === true">
     Invalid Password or Username
   </div>
