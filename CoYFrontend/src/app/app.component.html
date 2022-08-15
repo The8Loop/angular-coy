@@ -1,19 +1,27 @@
 <div class="flex-header-container">
-  <span class="emblem">
-    <a routerLink="/home"><img src="/assets/images/Emblem.png"
-        alt="Council of Yggdrasil's Coat of Arms featuring a Tree.">
-    </a>
-  </span>
-  <span class="flex-header-title">
-    <a routerLink="/home">Council of Yggdrasil</a>
-  </span>
-  <!-- <a class="flex-header-button" routerLink="/create">Enter Contribution</a> -->
-  <a class="flex-header-button" routerLink="/contribution">Contributions</a>
-  <a class="flex-header-button" routerLink="/login" *ngIf="loginService.getSession() === null">Log In</a>
-  <a class="flex-header-button" routerLink="/create" *ngIf="loginService.getSession() != null">Enter New Contrbution</a>
-  <a class="flex-header-button" href="" *ngIf="loginService.getSession() != null" (click)="logOut()">Log
-    Out</a>
+  <div>
+    <span class="emblem">
+      <a routerLink="/home"><img src="/assets/images/Emblem.png"
+          alt="Council of Yggdrasil's Coat of Arms featuring a Tree.">
+      </a>
+    </span>
+    <span class="flex-header-title">
+      <a routerLink="/home">Council of Yggdrasil</a>
+    </span>
+  </div>
+
+  <div>
+    <a class="flex-header-button" href="https://na.finalfantasyxiv.com/lodestone/freecompany/9230971861226094180/">Our
+      Lodestone</a>
+    <a class="flex-header-button" routerLink="/contribution">Contributions</a>
+    <a class="flex-header-button" routerLink="/login" *ngIf="loginService.getSession() === null">Log In</a>
+    <a class="flex-header-button" routerLink="/create" *ngIf="loginService.getSession() != null">Enter New
+      Contrbution</a>
+    <a class="flex-header-button" href="" *ngIf="loginService.getSession() != null" (click)="logOut()">Log
+      Out</a>
+  </div>
 </div>
+
 <div class="page">
   <router-outlet></router-outlet>
 </div>
