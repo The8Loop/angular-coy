@@ -31,7 +31,7 @@
 
 <div class="section">
   <div class="topic" *ngFor="let topic of lodestoneTopics;">
-    <a href={{topic.url}}>
+    <a href={{topic.url}} target="_blank">
       <img src={{topic.image}}>
     </a><br>
     {{topic.time | date : 'MMMM d, y, HH:mm z'}}
@@ -41,7 +41,7 @@
 
 <div class="section" *ngIf="!isLoadingMaintenance">
   <div class="maintenance-info" *ngIf="lodestoneMaintenance.game[0]; else elseBlock">
-    <a href={{lodestoneMaintenance.game[0].url}}>{{lodestoneMaintenance.game[0].title}}</a><br>
+    <a href={{lodestoneMaintenance.game[0].url}} target="_blank">{{lodestoneMaintenance.game[0].title}}</a><br>
     Start Time: {{lodestoneMaintenance.game[0].start | date : 'MMMM d, y, HH:mm z'}}<br>
     End Time: {{lodestoneMaintenance.game[0].end | date : 'MMMM d, y, HH:mm z'}}<br>
     Currently Ongoing: {{lodestoneMaintenance.game[0].current}}
